@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-10-04T17:00:43.928Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/114.0" etag="sqU75brlW2zh_PFL6KIL" version="22.0.2" type="github">
+<mxfile host="app.diagrams.net" modified="2023-10-04T18:21:21.103Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/114.0" etag="l5GwhhJpaslP7z39zqVh" version="22.0.2" type="github">
   <diagram name="Página-1" id="3rHO0FLQdO-PijWZnnOJ">
-    <mxGraphModel dx="1434" dy="795" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1434" dy="795" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -12,7 +12,7 @@
         <mxCell id="8prQ3-VJ4NBxgyQ5mque-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="8prQ3-VJ4NBxgyQ5mque-1" target="8prQ3-VJ4NBxgyQ5mque-7">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="8prQ3-VJ4NBxgyQ5mque-1" value="&lt;div&gt;personas&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+        <mxCell id="8prQ3-VJ4NBxgyQ5mque-1" value="socios" style="whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
           <mxGeometry x="80" y="200" width="80" height="40" as="geometry" />
         </mxCell>
         <mxCell id="8prQ3-VJ4NBxgyQ5mque-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="8prQ3-VJ4NBxgyQ5mque-2">
@@ -22,9 +22,6 @@
         </mxCell>
         <mxCell id="8prQ3-VJ4NBxgyQ5mque-2" value="libros" style="whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
           <mxGeometry x="320" y="200" width="80" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="8prQ3-VJ4NBxgyQ5mque-6" value="piden" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
-          <mxGeometry x="200" y="190" width="80" height="60" as="geometry" />
         </mxCell>
         <mxCell id="8prQ3-VJ4NBxgyQ5mque-7" value="&lt;u&gt;DNI&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="10" y="290" width="60" height="30" as="geometry" />
@@ -52,6 +49,15 @@
         </mxCell>
         <mxCell id="8prQ3-VJ4NBxgyQ5mque-15" value="&lt;u&gt;ISBN&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="290" y="280" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="8prQ3-VJ4NBxgyQ5mque-17" value="" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="570" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="8prQ3-VJ4NBxgyQ5mque-18" value="" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="270" y="570" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="8prQ3-VJ4NBxgyQ5mque-19" value="" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="570" width="80" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
