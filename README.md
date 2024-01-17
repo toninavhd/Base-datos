@@ -158,6 +158,7 @@ select nombre || '-' || departamento as nombre_departamento from empleados;
 
 ``` sql
 
+SELECT nombre,CASE WHEN salario > 50000 THEN 'Salario_alto' ELSE 'Salario_Bajo' END AS rango_salario FROM empleados;
 
 
 
@@ -246,6 +247,7 @@ select round(salario, 2) as salario_round from empleados;
 ### Cuenta el número total de empleados en cada departamento.
 ```sql
 
+select departamento,count(*) from empleados group by departamento;
 
 
 
@@ -361,6 +363,7 @@ select * from empleados where salario between 45000 and 55000;
 
 ```sql
 
+ select * from empleados where (nombre like '%a%') order by salario asc;
 
 
 
@@ -392,6 +395,7 @@ select * from empleados where departamento like 'Recursos Humanos' and salario b
 ```sql
 
 
+select nombre, salario from empleados order by salario desc limit 5;
 
 
 
