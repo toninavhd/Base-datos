@@ -321,7 +321,7 @@ select nombre, categoria from productos order by categoria;
 
 - Listar los productos que tienen un precio igual a la media de precios.
 ``` sql
-
+select * from productos as p where p.precio = (select avg(precio) from productos)
 
 
 ```
@@ -355,5 +355,18 @@ select nombre, categoria from productos order by categoria;
 ```
 - Encontrar los productos que tienen un precio superior a la media en la tabla "productos".
 ```sql
+select * from productos as p where p.precio > (select avg(precio) from productos);
+┌────┬─────────────────┬───────────┬────────┐
+│ id │     nombre      │ categoria │ precio │
+├────┼─────────────────┼───────────┼────────┤
+│ 4  │ Manzanas        │ Frutas    │ 3.0    │
+│ 5  │ Pollo           │ Carnes    │ 5.5    │
+│ 9  │ Queso           │ Lácteos   │ 4.0    │
+│ 10 │ Cereal          │ Desayuno  │ 3.5    │
+│ 13 │ Detergente      │ Limpieza  │ 2.8    │
+│ 15 │ Aceite de Oliva │ Cocina    │ 4.5    │
+│ 16 │ Café            │ Bebidas   │ 5.0    │
+│ 20 │ Cerveza         │ Bebidas   │ 3.8    │
+└────┴─────────────────┴───────────┴────────┘
 
 ```
