@@ -240,8 +240,23 @@ select * from productos where nombre like 'P%' ;
 ``` sql
 
 
+select p.id, p.nombre, v.fecha from productos as p, ventas as v where v.fecha = '2024-01-18' AND p.id = v.id_producto;
+┌────┬─────────┬────────────┐
+│ id │ nombre  │   fecha    │
+├────┼─────────┼────────────┤
+│ 6  │ Huevos  │ 2024-01-18 │
+│ 8  │ Tomates │ 2024-01-18 │
+│ 10 │ Cereal  │ 2024-01-18 │
+└────┴─────────┴────────────┘
 
 ```
+- Calcular total de ventas para cada producto.
+```sql
+
+
+
+```
+
 - Encontrar los productos con un precio entre 3 y 4.
 ``` sql
 
@@ -260,77 +275,37 @@ select * from productos where precio between 3 and 4;
 - Listar los productos y sus categorías ordenados alfabéticamente por categoría.
 ``` sql
 
-
+select nombre, categoria from productos order by categoria;
+┌────────────────────┬───────────┐
+│       nombre       │ categoria │
+├────────────────────┼───────────┤
+│ Arroz              │ Alimentos │
+│ Café               │ Bebidas   │
+│ Botellas de Agua   │ Bebidas   │
+│ Cerveza            │ Bebidas   │
+│ Pollo              │ Carnes    │
+│ Aceite de Oliva    │ Cocina    │
+│ Sopa enlatada      │ Conservas │
+│ Cereal             │ Desayuno  │
+│ Manzanas           │ Frutas    │
+│ Cepillo de Dientes │ Higiene   │
+│ Jabón de Baño      │ Higiene   │
+│ Papel Higiénico    │ Hogar     │
+│ Detergente         │ Limpieza  │
+│ Leche              │ Lácteos   │
+│ Huevos             │ Lácteos   │
+│ Yogurt             │ Lácteos   │
+│ Queso              │ Lácteos   │
+│ Pan                │ Panadería │
+│ Galletas           │ Snacks    │
+│ Tomates            │ Verduras  │
+└────────────────────┴───────────┘
 
 ```
 - Calcular el precio total de los productos vendidos en la fecha '2024-01-19'.
 ``` sql
 
-select * from productos as p, ventas as v where v.fecha like '2024-01-18' ;
-┌────┬────────────────────┬───────────┬────────┬────┬─────────────┬──────────┬────────────┐
-│ id │       nombre       │ categoria │ precio │ id │ id_producto │ cantidad │   fecha    │
-├────┼────────────────────┼───────────┼────────┼────┼─────────────┼──────────┼────────────┤
-│ 1  │ Arroz              │ Alimentos │ 2.5    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 2  │ Leche              │ Lácteos   │ 1.8    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 3  │ Pan                │ Panadería │ 1.2    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 4  │ Manzanas           │ Frutas    │ 3.0    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 5  │ Pollo              │ Carnes    │ 5.5    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 6  │ Huevos             │ Lácteos   │ 1.0    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 7  │ Yogurt             │ Lácteos   │ 2.0    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 8  │ Tomates            │ Verduras  │ 2.2    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 9  │ Queso              │ Lácteos   │ 4.0    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 10 │ Cereal             │ Desayuno  │ 3.5    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 11 │ Papel Higiénico    │ Hogar     │ 1.5    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 12 │ Cepillo de Dientes │ Higiene   │ 2.0    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 13 │ Detergente         │ Limpieza  │ 2.8    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 14 │ Galletas           │ Snacks    │ 1.7    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 15 │ Aceite de Oliva    │ Cocina    │ 4.5    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 16 │ Café               │ Bebidas   │ 5.0    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 17 │ Sopa enlatada      │ Conservas │ 2.3    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 18 │ Jabón de Baño      │ Higiene   │ 1.2    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 19 │ Botellas de Agua   │ Bebidas   │ 1.0    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 20 │ Cerveza            │ Bebidas   │ 3.8    │ 5  │ 6           │ 10       │ 2024-01-18 │
-│ 1  │ Arroz              │ Alimentos │ 2.5    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 2  │ Leche              │ Lácteos   │ 1.8    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 3  │ Pan                │ Panadería │ 1.2    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 4  │ Manzanas           │ Frutas    │ 3.0    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 5  │ Pollo              │ Carnes    │ 5.5    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 6  │ Huevos             │ Lácteos   │ 1.0    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 7  │ Yogurt             │ Lácteos   │ 2.0    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 8  │ Tomates            │ Verduras  │ 2.2    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 9  │ Queso              │ Lácteos   │ 4.0    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 10 │ Cereal             │ Desayuno  │ 3.5    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 11 │ Papel Higiénico    │ Hogar     │ 1.5    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 12 │ Cepillo de Dientes │ Higiene   │ 2.0    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 13 │ Detergente         │ Limpieza  │ 2.8    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 14 │ Galletas           │ Snacks    │ 1.7    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 15 │ Aceite de Oliva    │ Cocina    │ 4.5    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 16 │ Café               │ Bebidas   │ 5.0    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 17 │ Sopa enlatada      │ Conservas │ 2.3    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 18 │ Jabón de Baño      │ Higiene   │ 1.2    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 19 │ Botellas de Agua   │ Bebidas   │ 1.0    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 20 │ Cerveza            │ Bebidas   │ 3.8    │ 6  │ 8           │ 4        │ 2024-01-18 │
-│ 1  │ Arroz              │ Alimentos │ 2.5    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 2  │ Leche              │ Lácteos   │ 1.8    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 3  │ Pan                │ Panadería │ 1.2    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 4  │ Manzanas           │ Frutas    │ 3.0    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 5  │ Pollo              │ Carnes    │ 5.5    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 6  │ Huevos             │ Lácteos   │ 1.0    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 7  │ Yogurt             │ Lácteos   │ 2.0    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 8  │ Tomates            │ Verduras  │ 2.2    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 9  │ Queso              │ Lácteos   │ 4.0    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 10 │ Cereal             │ Desayuno  │ 3.5    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 11 │ Papel Higiénico    │ Hogar     │ 1.5    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 12 │ Cepillo de Dientes │ Higiene   │ 2.0    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 13 │ Detergente         │ Limpieza  │ 2.8    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 14 │ Galletas           │ Snacks    │ 1.7    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 15 │ Aceite de Oliva    │ Cocina    │ 4.5    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 16 │ Café               │ Bebidas   │ 5.0    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 17 │ Sopa enlatada      │ Conservas │ 2.3    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 18 │ Jabón de Baño      │ Higiene   │ 1.2    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 19 │ Botellas de Agua   │ Bebidas   │ 1.0    │ 7  │ 10          │ 2        │ 2024-01-18 │
-│ 20 │ Cerveza            │ Bebidas   │ 3.8    │ 7  │ 10          │ 2        │ 2024-01-18 │
-└────┴────────────────────┴───────────┴────────┴────┴─────────────┴──────────┴────────────┘
+
 
 ```
 - Mostrar los productos que no pertenecen a la categoría "Higiene".
@@ -339,21 +314,46 @@ select * from productos as p, ventas as v where v.fecha like '2024-01-18' ;
 
 
 ```
+- Encontrar la cantidad total de productos en cada categoría.
+```sql
+ 
+ ```
+
 - Listar los productos que tienen un precio igual a la media de precios.
 ``` sql
 
 
 
 ```
+- Calcular el precio total de los productos vendidos en cada fecha.
+ ```sql
+ 
+
+```
 - Mostrar los productos con un nombre que termina con la letra 'o'.
 ``` sql
 
 
+```
+- Encontrar los productos que han sido vendidos en más de una fecha.
+```sql
+
 
 ```
-- Encontrar la cantidad total de productos en cada categoría.
-``` sql
+- Listar los productos cuya categoría comienza con la letra 'L'.
+```sql
 
 
+```
+- Calcular el total de ventas para cada producto en la fecha '2024-01-17'.
+```sql
+
+```
+- Mostrar los productos cuyo nombre tiene al menos 5 caracteres.
+```sql
+
+```
+- Encontrar los productos que tienen un precio superior a la media en la tabla "productos".
+```sql
 
 ```
