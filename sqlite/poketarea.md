@@ -221,8 +221,126 @@ select * from Pokemon where nivel=50;
 
 -- Eliminar todos los Pokémon de nivel 40.
 
+delete from Pokemon where nivel=40;
+
+-- Obtener el tipo y nivel de Pikachu.
+
+select t.nombre, p.nivel from Pokemon as p, tipo as t where p.nombre='Pikachu' and p.id_tipo=t.id;
+
+┌────────────────┬───────┐
+│     nombre     │ nivel │
+├────────────────┼───────┤
+│ Electrico/Rojo │ 15    │
+└────────────────┴───────┘
+
+-- Obtener los Pokémon de tipo Planta con nivel superior a 20:
+
+select * from Pokemon as p, tipo as t where p.nivel>20 and t.nombre='Planta' and p.id_tipo=t.id;
+
+┌────┬─────────────────┬─────────┬───────┬────┬────────┐
+│ id │     nombre      │ id_tipo │ nivel │ id │ nombre │
+├────┼─────────────────┼─────────┼───────┼────┼────────┤
+│ 1  │ Bulbasaur Nv.15 │ 3       │ 30    │ 3  │ Planta │
+│ 16 │ Venusaur        │ 3       │ 45    │ 3  │ Planta │
+│ 23 │ Venusaur        │ 3       │ 70    │ 3  │ Planta │
+└────┴─────────────────┴─────────┴───────┴────┴────────┘
+
+-- Actualizar el tipo de Pikachu a "Eléctrico/Azul"
+
+update tipo as t set nombre='Electrico/Azul' from Pokemon as p where p.id_tipo=t.id and p.nombre='Pikachu';
 
 
+-- Eliminar todos los Pokémon de tipo Planta.
+
+delete from Pokemon where id_tipo in (select id from tipo where nombre='Planta');
+
+-- Obtener los Pokémon con nombre y tipo ordenados alfabéticamente.
+
+select p.nombre, t.nombre from Pokemon as p, tipo as t where t.id=p.id_tipo order by p.nombre;
+
+┌─────────────────┬────────────────┐
+│     nombre      │     nombre     │
+├─────────────────┼────────────────┤
+│ Arcanine        │ Fuego          │
+│ Blastoise       │ Agua           │
+│ Bulbasaur Nv.15 │ Planta         │
+│ Charizard       │ Fuego          │
+│ Charmander      │ Fuego          │
+│ Cubone          │ Tierra         │
+│ Dragonite       │ Fuego          │
+│ Electabuzz      │ Electrico/Azul │
+│ Flareon         │ Fuego          │
+│ Flareon         │ Fuego          │
+│ Geodude         │ Tierra         │
+│ Gyarados        │ Agua           │
+│ Ivysaur         │ Planta         │
+│ Jolteon         │ Electrico/Azul │
+│ Pikachu         │ Electrico/Azul │
+│ Raichu          │ Electrico/Azul │
+│ Rhydon          │ Tierra         │
+│ Rhydon          │ Tierra         │
+│ Sandslash       │ Tierra         │
+│ Squirtle        │ Agua           │
+│ Vaporeon        │ Agua           │
+│ Venusaur        │ Planta         │
+│ Venusaur        │ Planta         │
+│ Zapdos          │ Electrico/Azul │
+└─────────────────┴────────────────┘
+
+-- Obtén todos los Pokémon cuyos nombres contienen las letras 'sa'.
+
+select * from Pokemon where nombre LIKE '%sa%';
+
+┌────┬─────────────────┬─────────┬───────┐
+│ id │     nombre      │ id_tipo │ nivel │
+├────┼─────────────────┼─────────┼───────┤
+│ 1  │ Bulbasaur Nv.15 │ 3       │ 30    │
+│ 8  │ Ivysaur         │ 3       │ 18    │
+│ 15 │ Sandslash       │ 5       │ 33    │
+│ 16 │ Venusaur        │ 3       │ 45    │
+│ 23 │ Venusaur        │ 3       │ 70    │
+└────┴─────────────────┴─────────┴───────┘
+
+-- Encuentra todos los Pokémon cuyo nivel es 40, 50 o 60.
+
+select * from Pokemon where nivel in (40, 50, 60);
+
+┌────┬───────────┬─────────┬───────┐
+│ id │  nombre   │ id_tipo │ nivel │
+├────┼───────────┼─────────┼───────┤
+│ 17 │ Charizard │ 2       │ 50    │
+│ 21 │ Dragonite │ 2       │ 60    │
+└────┴───────────┴─────────┴───────┘
+
+-- Obtén todos los Pokémon de tipo Fuego cuyos nombres comienzan con la letra 'C'.
+
+select * from Pokemon as p, tipo as t where p.nombre LIKE 'C%' and t.nombre='Fuego' and p.id_tipo=t.id;
+
+┌────┬────────────┬─────────┬───────┬────┬────────┐
+│ id │   nombre   │ id_tipo │ nivel │ id │ nombre │
+├────┼────────────┼─────────┼───────┼────┼────────┤
+│ 2  │ Charmander │ 2       │ 12    │ 2  │ Fuego  │
+│ 17 │ Charizard  │ 2       │ 50    │ 2  │ Fuego  │
+└────┴────────────┴─────────┴───────┴────┴────────┘
+
+-- Encuentra los nombres y tipos de los Pokémon cuyo nivel es mayor que el promedio de todos los Pokémon en la base de datos.
+
+select p.nombre, t.nombre from Pokemon as p, tipo as t where p.nivel>(select AVG(nivel) from Pokemon) and t.id=p.id_tipo;
+
+┌────────────┬────────────────┐
+│   nombre   │     nombre     │
+├────────────┼────────────────┤
+│ Venusaur   │ Planta         │
+│ Charizard  │ Fuego          │
+│ Blastoise  │ Agua           │
+│ Electabuzz │ Electrico/Azul │
+│ Rhydon     │ Tierra         │
+│ Dragonite  │ Fuego          │
+│ Flareon    │ Fuego          │
+│ Venusaur   │ Planta         │
+│ Zapdos     │ Electrico/Azul │
+│ Rhydon     │ Tierra         │
+└────────────┴────────────────┘
 
 ```
 
