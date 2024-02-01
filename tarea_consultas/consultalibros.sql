@@ -71,16 +71,36 @@ select * from libro where titulo regexp '[aeiouAEIUO]';
 -- Libros cuyos títulos tienen al menos tres palabras.
 
 -- Obtener todos los autores cuyo nombre empieza con la letra "A":
+select * from autor where nombre regexp '^A';
 
 -- Seleccionar los libros cuyo título contiene la palabra "SQL":
 
+
 -- Obtener todos los autores cuyo nombre termina con "ez":
+select * from autor where nombre regexp 'ez$';
+
 
 -- Obtener todos los autores cuyo nombre tiene al menos 5 caracteres:
 
 -- Seleccionar los libros cuya editorial es diferente de "EditorialX":
 
 -- Obtener todos los autores cuyo nombre contiene al menos una vocal:
+select * from autor where nombre regexp '[aeiouAEIUO]';
+
+┌────┬─────────────────┐
+│ id │     nombre      │
+├────┼─────────────────┤
+│ 1  │ J.K. Rowling    │
+│ 2  │ Stephen King    │
+│ 3  │ George Orwell   │
+│ 4  │ Jane Austen     │
+│ 5  │ Agatha Christie │
+│ 6  │ J.K. Rowling    │
+│ 7  │ Stephen King    │
+│ 8  │ George Orwell   │
+│ 9  │ Jane Austen     │
+│ 10 │ Agatha Christie │
+└────┴─────────────────┘
 
 -- Seleccionar los libros cuyo título comienza con una letra mayúscula:
 
@@ -101,6 +121,46 @@ select * from libro where titulo regexp '[aeiouAEIUO]';
 -- Obtener todos los autores cuyo nombre contiene la secuencia "er":
 
 -- Seleccionar los libros cuyo título empieza con la palabra "The":
+select * from libro where titulo regexp '^The';
+
+┌────────┬───────────────────────────────────┬──────────┬───────────────────────────┬────────┐
+│ codigo │              titulo               │ autor_id │         editorial         │ precio │
+├────────┼───────────────────────────────────┼──────────┼───────────────────────────┼────────┤
+│ 1      │ The Great Gatsby                  │ 6        │ Charles Scribner's Sons   │ 20.99  │
+│ 3      │ The Catcher in the Rye            │ 8        │ Little, Brown and Company │ 18.75  │
+│ 6      │ The Hobbit                        │ 10       │ George Allen & Unwin      │ 24.99  │
+│ 7      │ The Lord of the Rings             │ 10       │ George Allen & Unwin      │ 35.5   │
+│ 8      │ The Chronicles of Narnia          │ 11       │ Geoffrey Bles             │ 28.99  │
+│ 9      │ The Odyssey                       │ 12       │ Homer                     │ 14.95  │
+│ 10     │ The Iliad                         │ 12       │ Homer                     │ 14.95  │
+│ 12     │ The Road                          │ 14       │ Alfred A. Knopf           │ 16.75  │
+│ 13     │ The Grapes of Wrath               │ 15       │ The Viking Press          │ 21.5   │
+│ 15     │ The Old Man and the Sea           │ 17       │ Charles Scribner's Sons   │ 18.95  │
+│ 16     │ The Count of Monte Cristo         │ 18       │ Pétion                    │ 27.99  │
+│ 17     │ The Picture of Dorian Gray        │ 19       │ Ward, Lock, and Company   │ 14.5   │
+│ 18     │ The Adventures of Sherlock Holmes │ 20       │ George Newnes             │ 16.99  │
+│ 21     │ The Prince                        │ 23       │ Niccolò Machiavelli       │ 10.99  │
+│ 23     │ The Divine Comedy                 │ 25       │ Dante Alighieri           │ 20.5   │
+│ 26     │ The Jungle Book                   │ 28       │ Macmillan Publishers      │ 14.99  │
+│ 27     │ The Wind in the Willows           │ 29       │ Methuen & Co.             │ 17.5   │
+│ 30     │ The Great Gatsby                  │ 6        │ Charles Scribner's Sons   │ 20.99  │
+│ 32     │ The Catcher in the Rye            │ 8        │ Little, Brown and Company │ 18.75  │
+│ 35     │ The Hobbit                        │ 10       │ George Allen & Unwin      │ 24.99  │
+│ 36     │ The Lord of the Rings             │ 10       │ George Allen & Unwin      │ 35.5   │
+│ 37     │ The Chronicles of Narnia          │ 11       │ Geoffrey Bles             │ 28.99  │
+│ 38     │ The Odyssey                       │ 12       │ Homer                     │ 14.95  │
+│ 39     │ The Iliad                         │ 12       │ Homer                     │ 14.95  │
+│ 41     │ The Road                          │ 14       │ Alfred A. Knopf           │ 16.75  │
+│ 42     │ The Grapes of Wrath               │ 15       │ The Viking Press          │ 21.5   │
+│ 44     │ The Old Man and the Sea           │ 17       │ Charles Scribner's Sons   │ 18.95  │
+│ 45     │ The Count of Monte Cristo         │ 18       │ Pétion                    │ 27.99  │
+│ 46     │ The Picture of Dorian Gray        │ 19       │ Ward, Lock, and Company   │ 14.5   │
+│ 47     │ The Adventures of Sherlock Holmes │ 20       │ George Newnes             │ 16.99  │
+│ 50     │ The Prince                        │ 23       │ Niccolò Machiavelli       │ 10.99  │
+│ 52     │ The Divine Comedy                 │ 25       │ Dante Alighieri           │ 20.5   │
+│ 55     │ The Jungle Book                   │ 28       │ Macmillan Publishers      │ 14.99  │
+│ 56     │ The Wind in the Willows           │ 29       │ Methuen & Co.             │ 17.5   │
+└────────┴───────────────────────────────────┴──────────┴───────────────────────────┴────────┘
 
 -- Obtener todos los autores cuyo nombre tiene al menos una letra mayúscula:
 
