@@ -99,6 +99,7 @@ select * from autor where nombre regexp 'ez$';
 SELECT * FROM autor WHERE nombre REGEXP '^.{5}$';
 
 -- Seleccionar los libros cuya editorial es diferente de "EditorialX":
+SELECT * FROM libro WHERE editorial not REGEXP 'EditorialX';
 
 -- Obtener todos los autores cuyo nombre contiene al menos una vocal:
 select * from autor where nombre regexp '[aeiouAEIUO]';
@@ -135,12 +136,13 @@ select * from libro where editorial regexp '^P';
 -- Obtener todos los autores cuyo nombre tiene exactamente 6 caracteres:
 SELECT * FROM autor WHERE nombre LENGTH(autor) = 5;
 -- Seleccionar los libros cuyo título contiene al menos un número:
-
+select * from libro where titulo regexp '\\[0-9]$';
 -- Obtener todos los autores cuyo nombre inicia con una vocal:
 select * from autor where nombre regexp '[^aeiouAEIUO]';
 -- Obtener todos los autores cuyo nombre no contiene espacios en blanco:
 
 -- Seleccionar los libros cuyo título termina con una vocal:
+select * from libro where editorial not regexp '^[aeiouAEIOU]';
 
 -- Obtener todos los autores cuyo nombre contiene la secuencia "er":
 select * from autor where nombre regexp 'er';
@@ -229,6 +231,8 @@ SELECT * FROM autor WHERE nombre not REGEXP '[0-9]';
 -- Seleccionar los libros cuyo título contiene al menos tres vocales:
 
 -- Obtener todos los autores cuyo nombre inicia con una consonante:
+select * from autor where nombre regexp '[^A-Z]';
+
 
 -- Seleccionar los libros cuyo título no contiene la palabra "Science":
 SELECT * FROM libro WHERE titulo not REGEXP 'Science';
