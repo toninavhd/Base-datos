@@ -24,6 +24,9 @@
 
 -- Consulta para obtener el nombre y la dirección de los clientes que han comprado coches de la marca Ford.
 
+SELECT clientes.nombre, clientes.direccion
+FROM clientes
+WHERE id_cliente IN (SELECT id_cliente FROM ventas WHERE id_coche IN (SELECT id_coche FROM coches WHERE marca = 'Ford'));
 
 -- Consulta para contar el número de coches vendidos por año.
 
@@ -42,6 +45,9 @@
 
 -- Consulta para obtener el nombre y el precio de los coches vendidos a clientes mayores de 35 años.
 
+SELECT coches.modelo, ventas.id_coche
+FROM coches, ventas
+WHERE coches.id_coche = ventas.id_coche AND ventas.id_cliente IN (SELECT id_cliente FROM clientes WHERE edad < 35);
 
 -- Consulta para calcular el precio total de los coches vendidos a clientes que viven en una calle (en la dirección).
 
