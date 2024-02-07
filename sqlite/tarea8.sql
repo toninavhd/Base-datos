@@ -189,7 +189,13 @@ FROM coches, ventas
 WHERE coches.id_coche = ventas.id_coche AND ventas.id_cliente IN (SELECT id_cliente FROM clientes WHERE edad < 35);
 
 -- Consulta para calcular el precio total de los coches vendidos a clientes que viven en una calle (en la dirección).
+select SUM(c.precio) as "Total" from coches as c, ventas as v, clientes as cl where cl.id_cliente=v.id_cliente and c.id_coche=v.id_coche and cl.direccion regexp '[cC]alle';
 
+┌───────────┐
+│   Total   │
+├───────────┤
+│ 114000.0  │
+└───────────┘
 
 -- Consulta para obtener el nombre y la dirección de los clientes que han comprado coches de más de 30000 euros y llevado a reparar sus coches en 2024.
 
@@ -198,7 +204,33 @@ WHERE coches.id_coche = ventas.id_coche AND ventas.id_cliente IN (SELECT id_clie
 
 
 -- Consulta para obtener el modelo y el año de los coches vendidos por clientes que tienen una dirección que contiene la palabra "Avenida".
+select c.modelo, c.año from coches as c, ventas as v, clientes as cliente where cliente.id_cliente=v.id_cliente and c.id_coche=v.id_coche and cliente.direccion regexp '[Aa]venida';
 
+┌────────────────┬──────┐
+│     modelo     │ año  │
+├────────────────┼──────┤
+│ Hatchback 2021 │ 2021 │
+│ Coupé 2022     │ 2022 │
+│ Compacto 2021  │ 2021 │
+│ Deportivo 2023 │ 2023 │
+│ Eléctrico 2021 │ 2021 │
+└────────────────┴──────┘
 
 -- Consulta para contar el número de reparaciones realizadas en 2024 por cada cliente.
 
+select cliente.id_cliente, COUNT(*) as "Reparaciones" from clientes as cliente, reparación as r where cl.id_cliente=r.id_cliente and fecha_reparación regexp '2024' group by r.id_cliente;
+
+┌────────────┬──────────────┐
+│ id_cliente │ Reparaciones │
+├────────────┼──────────────┤
+│ 1          │ 1            │
+│ 2          │ 1            │
+│ 3          │ 1            │
+│ 4          │ 1            │
+│ 5          │ 1            │
+│ 6          │ 1            │
+│ 7          │ 1            │
+│ 8          │ 1            │
+│ 9          │ 2            │
+│ 10         │ 2            │
+└────────────┴──────────────┘
