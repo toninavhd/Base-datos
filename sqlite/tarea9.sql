@@ -145,3 +145,19 @@ select a.nombre, a.direccion, c.profesor from alumnos a, clases c join inscripci
 -- Obtener el nombre del alumno y la materia de las clases en las que está inscrito, ordenado por el nombre del alumno.
 
 -- Contar cuántos alumnos están inscritos en cada clase.
+
+select * from alumnos a, clases c join inscripciones i on i.id_alumno=a.id and i.id_clase=c.id;
+┌────┬────────┬──────┬───────────┬────┬────────────────────────┬─────────────┬────────────┬────┬───────────┬──────────┐
+│ id │ nombre │ edad │ direccion │ id │         nombre         │   materia   │  profesor  │ id │ id_alumno │ id_clase │
+├────┼────────┼──────┼───────────┼────┼────────────────────────┼─────────────┼────────────┼────┼───────────┼──────────┤
+│ 1  │ Juan   │ 20   │ Calle A   │ 1  │ Matemáticas 101        │ Matemáticas │ Profesor X │ 1  │ 1         │ 1        │
+│ 1  │ Juan   │ 20   │ Calle A   │ 2  │ Historia Antigua       │ Historia    │ Profesor Y │ 2  │ 1         │ 2        │
+│ 2  │ María  │ 21   │ Calle B   │ 3  │ Literatura Moderna     │ Literatura  │ Profesor Z │ 3  │ 2         │ 3        │
+│ 2  │ María  │ 21   │ Calle B   │ 4  │ Biología Avanzada      │ Biología    │ Profesor W │ 4  │ 2         │ 4        │
+│ 3  │ Pedro  │ 19   │ Calle C   │ 5  │ Química Orgánica       │ Química     │ Profesor V │ 5  │ 3         │ 5        │
+│ 3  │ Pedro  │ 19   │ Calle C   │ 6  │ Física Cuántica        │ Física      │ Profesor U │ 6  │ 3         │ 6        │
+│ 4  │ Laura  │ 22   │ Calle D   │ 7  │ Arte Contemporáneo     │ Arte        │ Profesor T │ 7  │ 4         │ 7        │
+│ 4  │ Laura  │ 22   │ Calle D   │ 8  │ Inglés Avanzado        │ Idiomas     │ Profesor S │ 8  │ 4         │ 8        │
+│ 5  │ Carlos │ 20   │ Calle E   │ 9  │ Economía Internacional │ Economía    │ Profesor R │ 9  │ 5         │ 9        │
+│ 6  │ Ana    │ 19   │ Calle F   │ 10 │ Derecho Penal          │ Derecho     │ Profesor Q │ 10 │ 6         │ 10       │
+└────┴────────┴──────┴───────────┴────┴────────────────────────┴─────────────┴────────────┴────┴───────────┴──────────┘
