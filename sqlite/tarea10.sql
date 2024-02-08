@@ -17,7 +17,6 @@ select * from customers where country ='Brazil'
 
 --  Proporciona una consulta que muestre las facturas de clientes que son de Brasil. La tabla resultante debe mostrar el nombre completo del cliente, ID de factura, fecha de la factura y país de facturación.
 
-select c. 
 
 -- Proporciona una consulta que muestre solo los empleados que son Agentes de Ventas.
 
@@ -64,6 +63,7 @@ select * from employees where Title ='Sales Manager';
 
 
 -- Proporciona una consulta que muestre todas las facturas.
+
  Select * from Invoices;
 ┌───────────┬────────────┬─────────────────────┬──────────────────────────────────────────┬─────────────────────┬──────────────┬────────────────┬───────────────────┬───────┐
 │ InvoiceId │ CustomerId │     InvoiceDate     │              BillingAddress              │     BillingCity     │ BillingState │ BillingCountry │ BillingPostalCode │ Total │
