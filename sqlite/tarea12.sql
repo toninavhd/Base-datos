@@ -101,6 +101,7 @@ select * from pedido where total>= 3000;
 
 
 -- Devuelve un listado con los identificadores de los clientes que han realizado algún pedido. Tenga en cuenta que no debe mostrar identificadores que estén repetidos.
+SELECT DISTINCT cliente_id FROM pedido;
 
 -- Devuelve un listado de todos los pedidos que se realizaron durante el año 2017, cuya cantidad total sea superior a 500€.
 
@@ -119,16 +120,22 @@ select * from pedido where strftime('2017', fecha) and total >= 500;
 └────┴─────────┴────────────┴────────────┴──────────────┘
 
 -- Devuelve un listado con el nombre y los apellidos de los comerciales que tienen una comisión entre 0.05 y 0.11.
+SELECT nombre, apellido1 FROM comercial WHERE categoria BETWEEN 0.05 AND 0.11;
 
 -- Devuelve el valor de la comisión de mayor valor que existe en la tabla comercial.
 
 -- Devuelve el identificador, nombre y primer apellido de aquellos clientes cuyo segundo apellido no es NULL. El listado deberá estar ordenado alfabéticamente por apellidos y nombre.
+SELECT id, nombre, apellido1 FROM clientes WHERE apellido2 IS NOT NULL ORDER BY apellido1, nombre;
 
 -- Devuelve un listado de los nombres de los clientes que empiezan por A y terminan por n y también los nombres que empiezan por P. El listado deberá estar ordenado alfabéticamente.
+SELECT nombre FROM clientes WHERE (nombre LIKE 'A%n' OR nombre LIKE 'P%') ORDER BY nombre;
 
 -- Devuelve un listado de los nombres de los clientes que no empiezan por A. El listado deberá estar ordenado alfabéticamente.
+SELECT nombre FROM clientes WHERE nombre NOT LIKE 'A%' ORDER BY nombre;
+
 
 -- Devuelve un listado con los nombres de los comerciales que terminan por el o o. Tenga en cuenta que se deberán eliminar los nombres repetidos.
+SELECT DISTINCT nombre FROM comercial WHERE nombre LIKE '%o';
 
 /**
 ############################
@@ -138,17 +145,48 @@ select * from pedido where strftime('2017', fecha) and total >= 500;
 
 -- Devuelve un listado con el identificador, nombre y los apellidos de todos los clientes que han realizado algún pedido. El listado debe estar ordenado alfabéticamente y se deben eliminar los elementos repetidos.
 
+SELECT DISTINCT id, nombre, apellido FROM clientes JOIN pedido ON clientes.id = pedido1.cliente_id ORDER BY nombre, apellido1;
+
 -- Devuelve un listado que muestre todos los pedidos que ha realizado cada cliente. El resultado debe mostrar todos los datos de los pedidos y del cliente. El listado debe mostrar los datos de los clientes ordenados alfabéticamente.
+
+SELECT clientes.*, pedido.* FROM clientes JOIN pedido ON clientes.id = pedido.id_cliente
+ORDER BY clientes.nombre, clientes.apellido1;
 
 -- Devuelve un listado que muestre todos los pedidos en los que ha participado un comercial. El resultado debe mostrar todos los datos de los pedidos y de los comerciales. El listado debe mostrar los datos de los comerciales ordenados alfabéticamente.
 
+SELECT comercial.*, pedidos.* FROM comercial JOIN pedidos ON comercial.id = pedidos.comercial_id
+ORDER BY comercial.nombre;
+
+
 -- Devuelve un listado que muestre todos los clientes, con todos los pedidos que han realizado y con los datos de los comerciales asociados a cada pedido.
+
+SELECT clientes.*, pedido.*, comercial.*
+FROM clientes
+JOIN pedido ON clientes.id = pedido.cliente_id
+JOIN comercial ON pedido.comercial_id = comercial.id;
 
 -- Devuelve un listado de todos los clientes que realizaron un pedido durante el año 2017, cuya cantidad esté entre 300 € y 1000 €.
 
+SELECT clientes.*
+FROM clientes
+JOIN pedido ON clientes.id = pedido.cliente_id
+WHERE pedido.fecha BETWEEN '2017-01-01' AND '2017-12-31'
+AND pedido.cantidad BETWEEN 300 AND 1000;
+
 -- Devuelve el nombre y los apellidos de todos los comerciales que ha participado en algún pedido realizado por María Santana Moreno.
+SELECT comercial.nombre, comercial.apellido
+FROM comercial
+JOIN pedido ON comercial.id = pedido.id_comercial
+JOIN clientes ON pedido.cliente_id = clientes.id
+WHERE clientes.nombre = 'María' AND clientes.apellido1 = 'Santana' AND clientes.apellido2 = 'Moreno';
 
 -- Devuelve el nombre de todos los clientes que han realizado algún pedido con el comercial Daniel Sáez Vega.
+
+SELECT clientes.nombre
+FROM clientes
+JOIN pedido ON clientes.id = pedido.id_cliente
+JOIN comercial ON pedido.id_comercial = comercial.id
+WHERE comercial.nombre = 'Daniel' AND comercial.apellido = 'Sáez Vega';
 
 /**
 #########################
@@ -157,35 +195,73 @@ select * from pedido where strftime('2017', fecha) and total >= 500;
 **/
 
 -- Calcula la cantidad total que suman todos los pedidos que aparecen en la tabla pedido.
+SELECT SUM(cantidad) FROM pedido;
 
 -- Calcula la cantidad media de todos los pedidos que aparecen en la tabla pedido.
+SELECT AVG(cantidad) FROM pedido;
 
 -- Calcula el número total de comerciales distintos que aparecen en la tabla pedido.
+SELECT COUNT(DISTINCT id_comercial) FROM pedido;
 
 -- Calcula el número total de clientes que aparecen en la tabla cliente.
+SELECT COUNT(*) FROM cliente;
 
 -- Calcula cuál es la mayor cantidad que aparece en la tabla pedido.
+SELECT MAX(cantidad) FROM pedido;
 
 -- Calcula cuál es la menor cantidad que aparece en la tabla pedido.
+SELECT MIN(cantidad) FROM pedido;
 
 -- Calcula cuál es el valor máximo de categoría para cada una de las ciudades que aparece en la tabla cliente.
+SELECT ciudad, MAX(categoria) FROM cliente GROUP BY ciudad;
 
 -- Calcula cuál es el máximo valor de los pedidos realizados durante el mismo día para cada uno de los clientes. Es decir, el mismo cliente puede haber realizado varios pedidos de diferentes cantidades el mismo día. Se pide que se calcule cuál es el pedido de máximo valor para cada uno de los días en los que un cliente ha realizado un pedido. Muestra el identificador del cliente, nombre, apellidos, la fecha y el valor de la cantidad.
+SELECT id_cliente, nombre, apellidos, fecha, MAX(cantidad) 
+FROM pedido 
+GROUP BY id_cliente, fecha;
 
 -- Calcula cuál es el máximo valor de los pedidos realizados durante el mismo día para cada uno de los clientes, teniendo en cuenta que sólo queremos mostrar aquellos pedidos que superen la cantidad de 2000 €.
+SELECT id_cliente, nombre, apellidos, fecha, MAX(cantidad) 
+FROM pedido 
+WHERE cantidad > 2000 
+GROUP BY id_cliente, fecha;
 
 -- Calcula el máximo valor de los pedidos realizados para cada uno de los comerciales durante la fecha 2016-08-17. Muestra el identificador del comercial, nombre, apellidos y total.
+SELECT id_comercial, nombre, apellidos, MAX(cantidad) 
+FROM pedido 
+WHERE fecha = '2016-08-17' 
+GROUP BY id_comercial;
 
 -- Devuelve un listado con el identificador de cliente, nombre y apellidos y el número total de pedidos que ha realizado cada uno de clientes. Tenga en cuenta que pueden existir clientes que no han realizado ningún pedido. Estos clientes también deben aparecer en el listado indicando que el número de pedidos realizados es 0.
 
+SELECT c.id_cliente, c.nombre, c.apellidos, IFNULL(COUNT(p.id_pedido), 0) AS total_pedidos
+FROM cliente c
+LEFT JOIN pedido p ON c.id_cliente = p.id_cliente
+GROUP BY c.id_cliente;
+
 -- Devuelve un listado con el identificador de cliente, nombre y apellidos y el número total de pedidos que ha realizado cada uno de clientes durante el año 2017.
+SELECT c.id_cliente, c.nombre, c.apellidos, COUNT(p.id_pedido) AS total_pedidos
+FROM cliente c
+JOIN pedido p ON c.id_cliente = p.id_cliente
+WHERE strftime('%Y', p.fecha) = '2017'
+GROUP BY c.id_cliente;
 
 -- Devuelve un listado que muestre el identificador de cliente, nombre, primer apellido y el valor de la máxima cantidad del pedido realizado por cada uno de los clientes. El resultado debe mostrar aquellos clientes que no han realizado ningún pedido indicando que la máxima cantidad de sus pedidos realizados es 0.
+SELECT c.id_cliente, c.nombre, c.apellidos, IFNULL(MAX(p.cantidad), 0) AS max_cantidad
+FROM cliente c
+LEFT JOIN pedido p ON c.id_cliente = p.id_cliente
+GROUP BY c.id_cliente;
 
 -- Devuelve cuál ha sido el pedido de máximo valor que se ha realizado cada año.
+SELECT strftime('%Y', fecha) AS año, MAX(cantidad) AS max_cantidad
+FROM pedido
+GROUP BY año;
 
 -- Devuelve el número total de pedidos que se han realizado cada año.
 
+SELECT strftime('%Y', fecha) AS año, COUNT(id_pedido) AS total_pedidos
+FROM pedido
+GROUP BY año;
 
 /**
 ####################
@@ -198,15 +274,30 @@ select * from pedido where strftime('2017', fecha) and total >= 500;
 ###########################################
 **/
 -- Devuelve un listado con todos los pedidos que ha realizado Adela Salas Díaz. (Sin utilizar INNER JOIN).
-
+SELECT * 
+FROM pedido 
+WHERE id_cliente = (SELECT id_cliente FROM cliente WHERE nombre = 'Adela' AND apellido1 = 'Salas' AND apellido2= 'Díaz');
 -- Devuelve el número de pedidos en los que ha participado el comercial Daniel Sáez Vega. (Sin utilizar INNER JOIN)
+
+SELECT COUNT(*) 
+FROM pedido 
+WHERE id_comercial = (SELECT id_comercial FROM comercial WHERE nombre = 'Daniel' AND apellido1 = 'Sáez' AND apellido2 = 'Vega');
 
 -- Devuelve los datos del cliente que realizó el pedido más caro en el año 2019. (Sin utilizar INNER JOIN)
 
+SELECT * 
+FROM cliente 
+WHERE id_cliente = (SELECT id_cliente FROM pedido WHERE cantidad = (SELECT MAX(cantidad) FROM pedido WHERE strftime('%Y', fecha) = '2019'));
+
 -- Devuelve la fecha y la cantidad del pedido de menor valor realizado por el cliente Pepe Ruiz Santana.
 
+SELECT fecha, MIN(cantidad) 
+FROM pedido 
+WHERE id_cliente = (SELECT id_cliente FROM cliente WHERE nombre = 'Pepe' AND apellido1 = 'Ruiz' AND apellido2= 'Santana');
 -- Devuelve un listado con los datos de los clientes y los pedidos, de todos los clientes que han realizado un pedido durante el año 2017 con un valor mayor o igual al valor medio de los pedidos realizados durante ese mismo año.
-
+SELECT c.*, p.* 
+FROM cliente c, pedido p 
+WHERE c.id_cliente = p.id_cliente AND strftime('%Y', p.fecha) = '2017' AND p.cantidad >= (SELECT AVG(cantidad) FROM pedido WHERE strftime('%Y', fecha) = '2017');
 
 /**
 ###########################################
@@ -214,8 +305,14 @@ select * from pedido where strftime('2017', fecha) and total >= 500;
 ###########################################
 **/
 -- Devuelve un listado de los clientes que no han realizado ningún pedido. (Utilizando IN o NOT IN).
+SELECT * 
+FROM cliente 
+WHERE id_cliente NOT IN (SELECT DISTINCT id_cliente FROM pedido);
 
 -- Devuelve un listado de los comerciales que no han realizado ningún pedido. (Utilizando IN o NOT IN).
+SELECT * 
+FROM comercial 
+WHERE id_comercial NOT IN (SELECT DISTINCT id_comercial FROM pedido);
 
 /**
 ###########################################
@@ -224,5 +321,11 @@ select * from pedido where strftime('2017', fecha) and total >= 500;
 **/
 
 -- Devuelve un listado de los clientes que no han realizado ningún pedido. (Utilizando EXISTS o NOT EXISTS).
+SELECT * 
+FROM cliente c
+WHERE NOT EXISTS (SELECT 1 FROM pedido p WHERE c.id_cliente = p.id_cliente);
 
 -- Devuelve un listado de los comerciales que no han realizado ningún pedido. (Utilizando EXISTS o NOT EXISTS).
+SELECT * 
+FROM comercial com
+WHERE NOT EXISTS (SELECT 1 FROM pedido p WHERE com.id_comercial = p.id_comercial);
