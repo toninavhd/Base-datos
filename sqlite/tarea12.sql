@@ -107,3 +107,25 @@
 -- Devuelve la fecha y la cantidad del pedido de menor valor realizado por el cliente Pepe Ruiz Santana.
 
 -- Devuelve un listado con los datos de los clientes y los pedidos, de todos los clientes que han realizado un pedido durante el año 2017 con un valor mayor o igual al valor medio de los pedidos realizados durante ese mismo año.
+
+
+/**
+###########################################
+##      Subsconsultas con IN y NOT       ##
+###########################################
+**/
+-- Devuelve un listado de los clientes que no han realizado ningún pedido. (Utilizando IN o NOT IN).
+
+-- Devuelve un listado de los comerciales que no han realizado ningún pedido. (Utilizando IN o NOT IN).
+
+/**
+###########################################
+##    Subconsultas con EXIST y NOT IN    ##
+###########################################
+**/
+
+
+
+-- Devuelve un listado de los clientes que no han realizado ningún pedido. (Utilizando EXISTS o NOT EXISTS).
+
+-- Devuelve un listado de los comerciales que no han realizado ningún pedido. (Utilizando EXISTS o NOT EXISTS).
