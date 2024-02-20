@@ -247,13 +247,10 @@ WHERE strftime('%Y', p.fecha) = '2017'
 GROUP BY c.id_cliente;
 
 -- Devuelve un listado que muestre el identificador de cliente, nombre, primer apellido y el valor de la máxima cantidad del pedido realizado por cada uno de los clientes. El resultado debe mostrar aquellos clientes que no han realizado ningún pedido indicando que la máxima cantidad de sus pedidos realizados es 0.
-SELECT c.id_cliente, c.nombre, c.apellidos, IFNULL(MAX(p.cantidad), 0) AS max_cantidad
-FROM cliente c
-LEFT JOIN pedido p ON c.id_cliente = p.id_cliente
-GROUP BY c.id_cliente;
+
 
 -- Devuelve cuál ha sido el pedido de máximo valor que se ha realizado cada año.
-SELECT strftime('%Y', fecha) AS año, MAX(cantidad) AS max_cantidad
+SELECT strftime('%Y', fecha) AS año, MAX(total) AS max_cantidad
 FROM pedido
 GROUP BY año;
 
@@ -287,17 +284,36 @@ WHERE id_comercial = (SELECT id_comercial FROM comercial WHERE nombre = 'Daniel'
 
 SELECT * 
 FROM cliente 
-WHERE id_cliente = (SELECT id_cliente FROM pedido WHERE cantidad = (SELECT MAX(cantidad) FROM pedido WHERE strftime('%Y', fecha) = '2019'));
+WHERE ID = (SELECT id_cliente FROM pedido WHERE total = (SELECT MAX(total) FROM pedido WHERE strftime('%Y', fecha) = '2019'));
+┌────┬────────┬───────────┬───────────┬─────────┬───────────┐
+│ ID │ nombre │ apellido1 │ apellido2 │ ciudad  │ categoria │
+├────┼────────┼───────────┼───────────┼─────────┼───────────┤
+│ 1  │ Aarón  │ Rivero    │ Gómez     │ Almería │ 100       │
+└────┴────────┴───────────┴───────────┴─────────┴───────────┘
 
 -- Devuelve la fecha y la cantidad del pedido de menor valor realizado por el cliente Pepe Ruiz Santana.
-
-SELECT fecha, MIN(cantidad) 
+SELECT fecha, MIN(total) 
 FROM pedido 
 WHERE id_cliente = (SELECT id_cliente FROM cliente WHERE nombre = 'Pepe' AND apellido1 = 'Ruiz' AND apellido2= 'Santana');
+┌────────────┬────────────┐
+│   fecha    │ MIN(total) │
+├────────────┼────────────┤
+│ 2017-10-05 │ 65.26      │
+└────────────┴────────────┘
+
+
+
 -- Devuelve un listado con los datos de los clientes y los pedidos, de todos los clientes que han realizado un pedido durante el año 2017 con un valor mayor o igual al valor medio de los pedidos realizados durante ese mismo año.
 SELECT c.*, p.* 
 FROM cliente c, pedido p 
-WHERE c.id_cliente = p.id_cliente AND strftime('%Y', p.fecha) = '2017' AND p.cantidad >= (SELECT AVG(cantidad) FROM pedido WHERE strftime('%Y', fecha) = '2017');
+WHERE c.ID = p.id_cliente AND strftime('%Y', p.fecha) = '2017' AND p.total >= (SELECT AVG(total) FROM pedido WHERE strftime('%Y', fecha) = '2017');
+┌────┬────────┬───────────┬───────────┬─────────┬───────────┬────┬─────────┬────────────┬────────────┬──────────────┐
+│ ID │ nombre │ apellido1 │ apellido2 │ ciudad  │ categoria │ ID │  total  │   fecha    │ id_cliente │ id_comercial │
+├────┼────────┼───────────┼───────────┼─────────┼───────────┼────┼─────────┼────────────┼────────────┼──────────────┤
+│ 4  │ Adrián │ Suárez    │           │ Jaén    │ 300       │ 8  │ 1983.43 │ 2017-10-10 │ 4          │ 6            │
+│ 2  │ Adela  │ Salas     │ Díaz      │ Granada │ 200       │ 12 │ 3045.6  │ 2017-04-25 │ 2          │ 1            │
+└────┴────────┴───────────┴───────────┴─────────┴───────────┴────┴─────────┴────────────┴────────────┴──────────────┘
+
 
 /**
 ###########################################
@@ -305,14 +321,28 @@ WHERE c.id_cliente = p.id_cliente AND strftime('%Y', p.fecha) = '2017' AND p.can
 ###########################################
 **/
 -- Devuelve un listado de los clientes que no han realizado ningún pedido. (Utilizando IN o NOT IN).
+
 SELECT * 
 FROM cliente 
-WHERE id_cliente NOT IN (SELECT DISTINCT id_cliente FROM pedido);
+WHERE ID NOT IN (SELECT DISTINCT id_cliente FROM pedido);
+
+┌────┬───────────┬───────────┬───────────┬─────────┬───────────┐
+│ ID │  nombre   │ apellido1 │ apellido2 │ ciudad  │ categoria │
+├────┼───────────┼───────────┼───────────┼─────────┼───────────┤
+│ 9  │ Guillermo │ López     │ Gómez     │ Granada │ 225       │
+│ 10 │ Daniel    │ Santana   │ Loyola    │ Sevilla │ 125       │
+└────┴───────────┴───────────┴───────────┴─────────┴───────────┘
 
 -- Devuelve un listado de los comerciales que no han realizado ningún pedido. (Utilizando IN o NOT IN).
 SELECT * 
 FROM comercial 
-WHERE id_comercial NOT IN (SELECT DISTINCT id_comercial FROM pedido);
+WHERE ID NOT IN (SELECT DISTINCT id_comercial FROM pedido);
+┌────┬─────────┬───────────┬───────────┬───────────┐
+│ ID │ nombre  │ apellido1 │ apellido2 │ categoria │
+├────┼─────────┼───────────┼───────────┼───────────┤
+│ 4  │ Marta   │ Herrera   │ Gil       │ 0.14      │
+│ 8  │ Alfredo │ Ruiz      │ Flores    │ 0.05      │
+└────┴─────────┴───────────┴───────────┴───────────┘
 
 /**
 ###########################################
