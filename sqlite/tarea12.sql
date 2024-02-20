@@ -67,11 +67,56 @@
 
 -- Devuelve un listado con todos los pedidos que se han realizado. Los pedidos deben estar ordenados por la fecha de realización, mostrando en primer lugar los pedidos más recientes.
 
+select * from pedido order by fecha desc;
+┌────┬─────────┬────────────┬────────────┬──────────────┐
+│ ID │  total  │   fecha    │ id_cliente │ id_comercial │
+├────┼─────────┼────────────┼────────────┼──────────────┤
+│ 15 │ 370.85  │ 2019-03-11 │ 1          │ 5            │
+│ 16 │ 2389.23 │ 2019-03-11 │ 1          │ 5            │
+│ 13 │ 545.75  │ 2019-01-25 │ 6          │ 1            │
+│ 8  │ 1983.43 │ 2017-10-10 │ 4          │ 6            │
+│ 1  │ 150.5   │ 2017-10-05 │ 5          │ 2            │
+│ 3  │ 65.26   │ 2017-10-05 │ 2          │ 1            │
+│ 5  │ 948.5   │ 2017-09-10 │ 5          │ 2            │
+│ 12 │ 3045.6  │ 2017-04-25 │ 2          │ 1            │
+│ 14 │ 145.82  │ 2017-02-02 │ 6          │ 1            │
+│ 9  │ 2480.4  │ 2016-10-10 │ 8          │ 3            │
+│ 2  │ 270.65  │ 2016-09-10 │ 1          │ 5            │
+│ 4  │ 110.5   │ 2016-08-17 │ 8          │ 3            │
+│ 11 │ 75.29   │ 2016-08-17 │ 3          │ 7            │
+│ 6  │ 2400.6  │ 2016-07-27 │ 7          │ 1            │
+│ 7  │ 5760.0  │ 2015-09-10 │ 2          │ 1            │
+│ 10 │ 250.45  │ 2015-06-27 │ 8          │ 2            │
+└────┴─────────┴────────────┴────────────┴──────────────┘
+
 -- Devuelve todos los datos de los dos pedidos de mayor valor.
+
+select * from pedido where total>= 3000;
+┌────┬────────┬────────────┬────────────┬──────────────┐
+│ ID │ total  │   fecha    │ id_cliente │ id_comercial │
+├────┼────────┼────────────┼────────────┼──────────────┤
+│ 7  │ 5760.0 │ 2015-09-10 │ 2          │ 1            │
+│ 12 │ 3045.6 │ 2017-04-25 │ 2          │ 1            │
+└────┴────────┴────────────┴────────────┴──────────────┘
+
 
 -- Devuelve un listado con los identificadores de los clientes que han realizado algún pedido. Tenga en cuenta que no debe mostrar identificadores que estén repetidos.
 
 -- Devuelve un listado de todos los pedidos que se realizaron durante el año 2017, cuya cantidad total sea superior a 500€.
+
+select * from pedido where strftime('2017', fecha) and total >= 500;
+┌────┬─────────┬────────────┬────────────┬──────────────┐
+│ ID │  total  │   fecha    │ id_cliente │ id_comercial │
+├────┼─────────┼────────────┼────────────┼──────────────┤
+│ 5  │ 948.5   │ 2017-09-10 │ 5          │ 2            │
+│ 6  │ 2400.6  │ 2016-07-27 │ 7          │ 1            │
+│ 7  │ 5760.0  │ 2015-09-10 │ 2          │ 1            │
+│ 8  │ 1983.43 │ 2017-10-10 │ 4          │ 6            │
+│ 9  │ 2480.4  │ 2016-10-10 │ 8          │ 3            │
+│ 12 │ 3045.6  │ 2017-04-25 │ 2          │ 1            │
+│ 13 │ 545.75  │ 2019-01-25 │ 6          │ 1            │
+│ 16 │ 2389.23 │ 2019-03-11 │ 1          │ 5            │
+└────┴─────────┴────────────┴────────────┴──────────────┘
 
 -- Devuelve un listado con el nombre y los apellidos de los comerciales que tienen una comisión entre 0.05 y 0.11.
 
