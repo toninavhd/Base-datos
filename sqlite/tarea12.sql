@@ -92,6 +92,7 @@ select * from pedido order by fecha desc;
 -- Devuelve todos los datos de los dos pedidos de mayor valor.
 
 select * from pedido where total>= 3000;
+-- total desc
 ┌────┬────────┬────────────┬────────────┬──────────────┐
 │ ID │ total  │   fecha    │ id_cliente │ id_comercial │
 ├────┼────────┼────────────┼────────────┼──────────────┤
@@ -106,6 +107,7 @@ SELECT DISTINCT cliente_id FROM pedido;
 -- Devuelve un listado de todos los pedidos que se realizaron durante el año 2017, cuya cantidad total sea superior a 500€.
 
 select * from pedido where strftime('2017', fecha) and total >= 500;
+-- regexp('^2017')
 ┌────┬─────────┬────────────┬────────────┬──────────────┐
 │ ID │  total  │   fecha    │ id_cliente │ id_comercial │
 ├────┼─────────┼────────────┼────────────┼──────────────┤
@@ -120,6 +122,7 @@ select * from pedido where strftime('2017', fecha) and total >= 500;
 └────┴─────────┴────────────┴────────────┴──────────────┘
 
 -- Devuelve un listado con el nombre y los apellidos de los comerciales que tienen una comisión entre 0.05 y 0.11.
+  
 SELECT nombre, apellido1 FROM comercial WHERE categoria BETWEEN 0.05 AND 0.11;
 
 ┌─────────┬───────────┐
@@ -131,7 +134,7 @@ SELECT nombre, apellido1 FROM comercial WHERE categoria BETWEEN 0.05 AND 0.11;
 └─────────┴───────────┘
 
 -- Devuelve el valor de la comisión de mayor valor que existe en la tabla comercial.
-
+-- SELECT FROM comercial MAX
 -- Devuelve el identificador, nombre y primer apellido de aquellos clientes cuyo segundo apellido no es NULL. El listado deberá estar ordenado alfabéticamente por apellidos y nombre.
 SELECT id, nombre, apellido1 FROM cliente WHERE apellido2 IS NOT NULL ORDER BY apellido1, nombre;
 ┌────┬───────────┬───────────┐
@@ -148,7 +151,7 @@ SELECT id, nombre, apellido1 FROM cliente WHERE apellido2 IS NOT NULL ORDER BY a
 └────┴───────────┴───────────┘
 
 -- Devuelve un listado de los nombres de los clientes que empiezan por A y terminan por n y también los nombres que empiezan por P. El listado deberá estar ordenado alfabéticamente.
-SELECT nombre FROM cliente WHERE (nombre LIKE 'A%n' OR nombre LIKE 'P%') ORDER BY nombre;
+SELECT nombre FROM cliente WHERE nombre regexp '^[Aa]|^[Pp]' and nombre regexp 'n$' order by nombre;
 
 ┌────────┐
 │ nombre │
@@ -160,7 +163,7 @@ SELECT nombre FROM cliente WHERE (nombre LIKE 'A%n' OR nombre LIKE 'P%') ORDER B
 └────────┘
 
 -- Devuelve un listado de los nombres de los clientes que no empiezan por A. El listado deberá estar ordenado alfabéticamente.
-SELECT nombre FROM cliente WHERE nombre NOT LIKE 'A%' ORDER BY nombre;
+SELECT nombre FROM cliente WHERE nombre NOT regexp '[Aa]' ORDER BY nombre;
 
 ┌───────────┐
 │  nombre   │
@@ -174,7 +177,7 @@ SELECT nombre FROM cliente WHERE nombre NOT LIKE 'A%' ORDER BY nombre;
 └───────────┘
 
 -- Devuelve un listado con los nombres de los comerciales que terminan por el o o. Tenga en cuenta que se deberán eliminar los nombres repetidos.
-SELECT DISTINCT nombre FROM comercial WHERE nombre LIKE '%o';
+SELECT DISTINCT nombre FROM comercial WHERE nombre regexp 'o$';
 
 ┌─────────┐
 │ nombre  │
@@ -192,6 +195,7 @@ SELECT DISTINCT nombre FROM comercial WHERE nombre LIKE '%o';
 
 -- Devuelve un listado con el identificador, nombre y los apellidos de todos los clientes que han realizado algún pedido. El listado debe estar ordenado alfabéticamente y se deben eliminar los elementos repetidos.
 
+select distinct(cl.id, cl.nombre, cl.apellido1, cl.apellido2 from cliente as cl join pedido as p on cl.id=p.id_cliente order by cl.nombre;
 
 -- Devuelve un listado que muestre todos los pedidos que ha realizado cada cliente. El resultado debe mostrar todos los datos de los pedidos y del cliente. El listado debe mostrar los datos de los clientes ordenados alfabéticamente.
 
