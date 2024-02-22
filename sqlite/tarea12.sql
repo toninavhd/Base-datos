@@ -229,6 +229,8 @@ FROM comercial
 JOIN pedido ON comercial.id = pedido.id_comercial
 JOIN clientes ON pedido.cliente_id = clientes.id
 WHERE clientes.nombre = 'María' AND clientes.apellido1 = 'Santana' AND clientes.apellido2 = 'Moreno';
+-- from pedido as p join comercial as c on c.id=p.id_comercial join cliente as cli on c.id_cliente where... =cli.id
+
 
 -- Devuelve el nombre de todos los clientes que han realizado algún pedido con el comercial Daniel Sáez Vega.
 
@@ -245,10 +247,10 @@ WHERE comercial.nombre = 'Daniel' AND comercial.apellido = 'Sáez Vega';
 **/
 
 -- Calcula la cantidad total que suman todos los pedidos que aparecen en la tabla pedido.
-SELECT SUM(cantidad) FROM pedido;
+SELECT MAX(total) as maximo FROM pedido;
 
 -- Calcula la cantidad media de todos los pedidos que aparecen en la tabla pedido.
-SELECT AVG(cantidad) FROM pedido;
+SELECT AVG(total) as media FROM pedido;
 
 -- Calcula el número total de comerciales distintos que aparecen en la tabla pedido.
 SELECT COUNT(DISTINCT id_comercial) FROM pedido;
@@ -257,23 +259,23 @@ SELECT COUNT(DISTINCT id_comercial) FROM pedido;
 SELECT COUNT(*) FROM cliente;
 
 -- Calcula cuál es la mayor cantidad que aparece en la tabla pedido.
-SELECT MAX(cantidad) FROM pedido;
+SELECT MAX(total) FROM pedido;
 
 -- Calcula cuál es la menor cantidad que aparece en la tabla pedido.
-SELECT MIN(cantidad) FROM pedido;
+SELECT MIN(total) FROM pedido;
 
 -- Calcula cuál es el valor máximo de categoría para cada una de las ciudades que aparece en la tabla cliente.
 SELECT ciudad, MAX(categoria) FROM cliente GROUP BY ciudad;
 
 -- Calcula cuál es el máximo valor de los pedidos realizados durante el mismo día para cada uno de los clientes. Es decir, el mismo cliente puede haber realizado varios pedidos de diferentes cantidades el mismo día. Se pide que se calcule cuál es el pedido de máximo valor para cada uno de los días en los que un cliente ha realizado un pedido. Muestra el identificador del cliente, nombre, apellidos, la fecha y el valor de la cantidad.
-SELECT id_cliente, nombre, apellidos, fecha, MAX(cantidad) 
+SELECT id_cliente, nombre, apellidos, fecha, MAX(total) 
 FROM pedido 
 GROUP BY id_cliente, fecha;
 
 -- Calcula cuál es el máximo valor de los pedidos realizados durante el mismo día para cada uno de los clientes, teniendo en cuenta que sólo queremos mostrar aquellos pedidos que superen la cantidad de 2000 €.
-SELECT id_cliente, nombre, apellidos, fecha, MAX(cantidad) 
+SELECT id_cliente, nombre, apellidos, fecha, MAX(total) 
 FROM pedido 
-WHERE cantidad > 2000 
+WHERE total > 2000 
 GROUP BY id_cliente, fecha;
 
 -- Calcula el máximo valor de los pedidos realizados para cada uno de los comerciales durante la fecha 2016-08-17. Muestra el identificador del comercial, nombre, apellidos y total.
@@ -286,7 +288,7 @@ GROUP BY id_cliente, fecha;
 SELECT c.id, c.nombre, c.apellido1, COUNT(p.id) AS total_pedidos
 FROM cliente c
 JOIN pedido p ON c.id = p.id_cliente
-WHERE strftime('%Y', p.fecha) = '2017'
+WHERE strftime('2017', p.fecha)
 GROUP BY c.id;
 
 ┌────┬────────┬───────────┬───────────────┐
@@ -299,7 +301,7 @@ GROUP BY c.id;
 └────┴────────┴───────────┴───────────────┘
 
 -- Devuelve un listado que muestre el identificador de cliente, nombre, primer apellido y el valor de la máxima cantidad del pedido realizado por cada uno de los clientes. El resultado debe mostrar aquellos clientes que no han realizado ningún pedido indicando que la máxima cantidad de sus pedidos realizados es 0.
-
+-- select c.id,c.nombre, c.apellido1, c.apellido2,
 
 -- Devuelve cuál ha sido el pedido de máximo valor que se ha realizado cada año.
 
