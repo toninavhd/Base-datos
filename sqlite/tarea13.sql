@@ -306,10 +306,10 @@ ORDER BY COUNT(a.id) DESC;
 -- Devuelve un listado con los departamentos que no tienen profesores asociados.
 
 -- Devuelve un listado con los profesores que tienen un departamento asociado y que no imparten ninguna asignatura.
-Select p.nombre from persona as p
+Select * p.nombre from persona as p
 JOIN profesor as pr on p.id=pr.id_profesor
 where pr.id_profesor not in
-(select id_profesor from asignatura); 
+(select DISTINCT(id_profesor) from asignatura a.id_profesor=pr.id_profesor); 
 -- Devuelve un listado con las asignaturas que no tienen un profesor asignado.
 
 -- Devuelve un listado con todos los departamentos que no han impartido asignaturas en ningún curso escolar.
