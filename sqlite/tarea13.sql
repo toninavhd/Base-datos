@@ -80,12 +80,13 @@ WHERE id_grado IN (
 
 --  Devuelve un listado con todas las asignaturas ofertadas en el Grado en Ingeniería Informática (Plan 2015).
 SELECT *
-FROM asignaturas
+FROM asignatura
 WHERE id_grado IN (
     SELECT id
     FROM grado
-    WHERE nombre = 'Ingeniería Informática' AND plan = 2015
+    WHERE nombre = 'Ingeniería Informática plan 2015' 
 );
+
 
 --  Devuelve un listado de los profesores junto con el nombre del departamento al que están vinculados. El listado debe devolver cuatro columnas, primer apellido, segundo apellido, nombre y nombre del departamento. El resultado estará ordenado alfabéticamente de menor a mayor por los apellidos y el nombre.
 SELECT p.apellido1, p.apellido2, p.nombre, d.nombre AS nombre_departamento
@@ -305,7 +306,10 @@ ORDER BY COUNT(a.id) DESC;
 -- Devuelve un listado con los departamentos que no tienen profesores asociados.
 
 -- Devuelve un listado con los profesores que tienen un departamento asociado y que no imparten ninguna asignatura.
-
+Select p.nombre from persona as p
+JOIN profesor as pr on p.id=pr.id_profesor
+where pr.id_profesor not in
+(select id_profesor from asignatura); 
 -- Devuelve un listado con las asignaturas que no tienen un profesor asignado.
 
 -- Devuelve un listado con todos los departamentos que no han impartido asignaturas en ningún curso escolar.
