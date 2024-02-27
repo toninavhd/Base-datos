@@ -306,10 +306,36 @@ ORDER BY COUNT(a.id) DESC;
 -- Devuelve un listado con los departamentos que no tienen profesores asociados.
 
 -- Devuelve un listado con los profesores que tienen un departamento asociado y que no imparten ninguna asignatura.
-Select * p.nombre from persona as p
-JOIN profesor as pr on p.id=pr.id_profesor
-where pr.id_profesor not in
+select pr.id profesor from profesor as pr where pr.id_profesor not(select id_departamento from profesor as p WHERE id_profesor in(select DISTINCT id_profesor from asignatura)) 
+
+select p.* from persona as p where p.id in (select id_profesor from profesor);
+┌────┬───────────┬───────────┬────────────┬────────────┬─────────┬───────────────────────────┬───────────┬──────────────────┬──────┬──────────┐
+│ id │    nif    │  nombre   │ apellido1  │ apellido2  │ ciudad  │         direccion         │ telefono  │ fecha_nacimiento │ sexo │   tipo   │
+├────┼───────────┼───────────┼────────────┼────────────┼─────────┼───────────────────────────┼───────────┼──────────────────┼──────┼──────────┤
+│ 3  │ 11105554G │ Zoe       │ Ramirez    │ Gea        │ Almería │ C/ Marte                  │ 618223876 │ 1979/08/19       │ M    │ profesor │
+│ 5  │ 38223286T │ David     │ Schmidt    │ Fisher     │ Almería │ C/ Venus                  │ 678516294 │ 1978/01/19       │ H    │ profesor │
+│ 8  │ 79503962T │ Cristina  │ Lemke      │ Rutherford │ Almería │ C/ Saturno                │ 669162534 │ 1977/08/21       │ M    │ profesor │
+│ 10 │ 61142000L │ Esther    │ Spencer    │ Lakin      │ Almería │ C/ Plutón                 │           │ 1977/05/19       │ M    │ profesor │
+│ 12 │ 85366986W │ Carmen    │ Streich    │ Hirthe     │ Almería │ C/ Almanzora              │           │ 1971-04-29       │ M    │ profesor │
+│ 13 │ 73571384L │ Alfredo   │ Stiedemann │ Morissette │ Almería │ C/ Guadalquivir           │ 950896725 │ 1980/02/01       │ H    │ profesor │
+│ 14 │ 82937751G │ Manolo    │ Hamill     │ Kozey      │ Almería │ C/ Duero                  │ 950263514 │ 1977/01/02       │ H    │ profesor │
+│ 15 │ 80502866Z │ Alejandro │ Kohler     │ Schoen     │ Almería │ C/ Tajo                   │ 668726354 │ 1980/03/14       │ H    │ profesor │
+│ 16 │ 10485008K │ Antonio   │ Fahey      │ Considine  │ Almería │ C/ Sierra de los Filabres │           │ 1982/03/18       │ H    │ profesor │
+│ 17 │ 85869555K │ Guillermo │ Ruecker    │ Upton      │ Almería │ C/ Sierra de Gádor        │           │ 1973/05/05       │ H    │ profesor │
+│ 18 │ 04326833G │ Micaela   │ Monahan    │ Murray     │ Almería │ C/ Veleta                 │ 662765413 │ 1976/02/25       │ H    │ profesor │
+│ 20 │ 79221403L │ Francesca │ Schowalter │ Muller     │ Almería │ C/ Quinto pino            │           │ 1980/10/31       │ H    │ profesor │
+└────┴───────────┴───────────┴────────────┴────────────┴─────────┴───────────────────────────┴───────────┴──────────────────┴──────┴──────────┘
+
+
+
 (select DISTINCT(id_profesor) from asignatura a.id_profesor=pr.id_profesor); 
 -- Devuelve un listado con las asignaturas que no tienen un profesor asignado.
-
+select a.* from asignatura a WHERE id_profesor in (select a.id_profesor from asignatura where id_profesor IS NULL);
 -- Devuelve un listado con todos los departamentos que no han impartido asignaturas en ningún curso escolar.
+select DISTINCT (id_profesor) from asignatura as where a.id_profesor is nor null;
+
+select DISTINCT (id) from asignatura as a where a.id_profesor is not null;
+
+select id_departamento from profesor where id_profesor(select DISTINCT(id_profesor)from asignatura);
+
+select d. from departamento where id not in
