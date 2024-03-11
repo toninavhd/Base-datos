@@ -4,11 +4,12 @@ CREATE DATABASE IF NOT EXISTS practica_joins;
 -- Usar la base de datos
 USE practica_joins;
 
--- Crear la tabla de clientes
+-- Crear la tabla de clientes -- igual en los siguientes
 CREATE TABLE IF NOT EXISTS clientes (
-    id_cliente INTEGER AUTOINCREMENT PRIMARY KEY,
+    id_cliente INT AUTO_INCREMENT,
     nombre VARCHAR(50),
-    direccion VARCHAR(50)
+    direccion VARCHAR(50),
+    PRIMARY KEY(id_cliente)
 );
 
 -- Insertar 20 registros de ejemplo en la tabla de clientes
