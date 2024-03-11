@@ -1,18 +1,27 @@
 ## Realiza la migración a MySql y realiza las siguientes consultas:
 
-### Consultas simples:
+### Consultas simples.
+
 - Mostrar todos los clientes.
 
 - Mostrar todos los productos.
+
 - Mostrar todas las órdenes.
+
 - Mostrar los primeros 5 clientes ordenados por nombre.
+
 - Mostrar los productos con un precio mayor a 50.
+
 - Mostrar todas las órdenes realizadas por el cliente con ID 1.
+
 - Mostrar los clientes cuyos nombres comienzan con la letra "M".
+
 - Mostrar las órdenes que contienen más de 2 productos.
+
 - Mostrar los productos ordenados por precio de forma descendente.
 
-### Consultas de ejemplo para practicar joins
+### Consultas de ejemplo para practicar joins.
+
 - Seleccionar todos los clientes y sus órdenes, incluso si no tienen órdenes
 
 - Seleccionar todas las órdenes junto con los productos correspondientes
