@@ -37,9 +37,10 @@ INSERT INTO clientes (nombre, direccion) VALUES
 
 -- Crear la tabla de productos
 CREATE TABLE IF NOT EXISTS productos (
-    id_producto INTEGER AUTOINCREMENT PRIMARY KEY,
+    id_producto INT AUTO_INCREMENT,
     nombre VARCHAR(50),
     precio DECIM(2)
+    PRIMARY KEY (id_producto)
 );
 
 -- Insertar 20 registros de ejemplo en la tabla de productos
@@ -67,7 +68,7 @@ INSERT INTO productos (nombre, precio) VALUES
 
 -- Crear la tabla de órdenes
 CREATE TABLE IF NOT EXISTS ordenes (
-    id_orden INTEGER AUTOINCREMENT PRIMARY KEY,
+    id_orden INT AUTO_INCREMENT,
     id_cliente INTEGER,
     id_producto INTEGER,
     cantidad INTEGER,
