@@ -38,7 +38,7 @@ INSERT INTO clientes (nombre, direccion) VALUES
 CREATE TABLE IF NOT EXISTS productos (
     id_producto INTEGER AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50),
-    precio DECIMAL(65)
+    precio FLOAT
   );
 
 -- Insertar 20 registros de ejemplo en la tabla de productos
