@@ -4,6 +4,33 @@
 
 - Mostrar todos los clientes.
 
+SELECT * FROM clientes
+
++------------+------------+---------------+
+| id_cliente | nombre     | direccion     |
++------------+------------+---------------+
+|          1 | Cliente 1  | Dirección 1   |
+|          2 | Cliente 2  | Dirección 2   |
+|          3 | Cliente 3  | Dirección 3   |
+|          4 | Cliente 4  | Dirección 4   |
+|          5 | Cliente 5  | Dirección 5   |
+|          6 | Cliente 6  | Dirección 6   |
+|          7 | Cliente 7  | Dirección 7   |
+|          8 | Cliente 8  | Dirección 8   |
+|          9 | Cliente 9  | Dirección 9   |
+|         10 | Cliente 10 | Dirección 10  |
+|         11 | Cliente 11 | Dirección 11  |
+|         12 | Cliente 12 | Dirección 12  |
+|         13 | Cliente 13 | Dirección 13  |
+|         14 | Cliente 14 | Dirección 14  |
+|         15 | Cliente 15 | Dirección 15  |
+|         16 | Cliente 16 | Dirección 16  |
+|         17 | Cliente 17 | Dirección 17  |
+|         18 | Cliente 18 | Dirección 18  |
+|         19 | Cliente 19 | Dirección 19  |
+|         20 | Cliente 20 | Dirección 20  |
++------------+------------+---------------+
+
 - Mostrar todos los productos.
 
 - Mostrar todas las órdenes.

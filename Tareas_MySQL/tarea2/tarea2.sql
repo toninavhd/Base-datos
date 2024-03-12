@@ -8,9 +8,8 @@ USE practica_joins;
 CREATE TABLE IF NOT EXISTS clientes (
     id_cliente INTEGER AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50),
-    direccion VARCHAR(50),
-    PRIMARY KEY(id_cliente)
-);
+    direccion VARCHAR(50)
+    );
 
 -- Insertar 20 registros de ejemplo en la tabla de clientes
 INSERT INTO clientes (nombre, direccion) VALUES
@@ -39,9 +38,8 @@ INSERT INTO clientes (nombre, direccion) VALUES
 CREATE TABLE IF NOT EXISTS productos (
     id_producto INTEGER AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50),
-    precio DECIM(2)
-    PRIMARY KEY (id_producto)
-);
+    precio DECIMAL(65)
+  );
 
 -- Insertar 20 registros de ejemplo en la tabla de productos
 INSERT INTO productos (nombre, precio) VALUES
