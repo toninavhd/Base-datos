@@ -6,7 +6,7 @@ USE practica_joins;
 
 -- Crear la tabla de clientes -- igual en los siguientes
 CREATE TABLE IF NOT EXISTS clientes (
-    id_cliente INT AUTO_INCREMENT,
+    id_cliente INTEGER AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50),
     direccion VARCHAR(50),
     PRIMARY KEY(id_cliente)
@@ -37,7 +37,7 @@ INSERT INTO clientes (nombre, direccion) VALUES
 
 -- Crear la tabla de productos
 CREATE TABLE IF NOT EXISTS productos (
-    id_producto INT AUTO_INCREMENT,
+    id_producto INTEGER AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50),
     precio DECIM(2)
     PRIMARY KEY (id_producto)
@@ -68,7 +68,7 @@ INSERT INTO productos (nombre, precio) VALUES
 
 -- Crear la tabla de órdenes
 CREATE TABLE IF NOT EXISTS ordenes (
-    id_orden INT AUTO_INCREMENT,
+    id_orden INTEGER AUTO_INCREMENT PRIMARY KEY,
     id_cliente INTEGER,
     id_producto INTEGER,
     cantidad INTEGER,
