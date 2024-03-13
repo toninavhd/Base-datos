@@ -3,18 +3,44 @@
 - Mostrar todos los clientes.
 
 ```
+select * from clientes;
+
++------------+----------------+----------------+
+| id_cliente | nombre_cliente | ciudad_cliente |
++------------+----------------+----------------+
+|          1 | Juan           | Ciudad A       |
+|          2 | María          | Ciudad B       |
+|          3 | Pedro          | Ciudad C       |
++------------+----------------+----------------+
 
 ```
 
 - Mostrar todas las órdenes.
 
 ```
+select * from ordenes;
+
++----------+------------+-------------+
+| id_orden | id_cliente | fecha_orden |
++----------+------------+-------------+
+|        1 |          1 | 2024-03-01  |
+|        2 |          2 | 2024-03-02  |
+|        3 |          3 | 2024-03-03  |
++----------+------------+-------------+
 
 ```
 
 - Mostrar todos los productos.
 
 ```
+select * from productos;
++-------------+-----------------+-----------------+
+| id_producto | nombre_producto | precio_producto |
++-------------+-----------------+-----------------+
+|           1 | Producto A      |           50.00 |
+|           2 | Producto B      |           75.00 |
+|           3 | Producto C      |          100.00 |
++-------------+-----------------+-----------------+
 
 ```
 
@@ -22,11 +48,31 @@
 
 ```
 
+select * from detalles_ordenes;
+
++------------+----------+-------------+----------+
+| id_detalle | id_orden | id_producto | cantidad |
++------------+----------+-------------+----------+
+|          1 |        1 |           1 |        2 |
+|          2 |        2 |           2 |        1 |
+|          3 |        3 |           3 |        3 |
++------------+----------+-------------+----------+
+
 ```
 
 - Mostrar los primeros 5 clientes ordenados por nombre.
 
 ```
+
+select * from clientes order by nombre_cliente limit 5;
+
++------------+----------------+----------------+
+| id_cliente | nombre_cliente | ciudad_cliente |
++------------+----------------+----------------+
+|          1 | Juan           | Ciudad A       |
+|          2 | María          | Ciudad B       |
+|          3 | Pedro          | Ciudad C       |
++------------+----------------+----------------+
 
 ```
 
@@ -34,11 +80,28 @@
 
 ```
 
+select * from productos where precio_producto > 50;
+
++-------------+-----------------+-----------------+
+| id_producto | nombre_producto | precio_producto |
++-------------+-----------------+-----------------+
+|           2 | Producto B      |           75.00 |
+|           3 | Producto C      |          100.00 |
++-------------+-----------------+-----------------+
+
 ```
 
 - Mostrar todas las órdenes realizadas por el cliente con ID 1.
 
 ```
+
+select * from ordenes where id_cliente = 1;
+
++----------+------------+-------------+
+| id_orden | id_cliente | fecha_orden |
++----------+------------+-------------+
+|        1 |          1 | 2024-03-01  |
++----------+------------+-------------+
 
 ```
 

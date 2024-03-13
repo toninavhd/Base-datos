@@ -1,25 +1,25 @@
 -- Completa aquello que falte
 CREATE TABLE clientes (
-    id_cliente INT PRIMARY KEY AUTOINCREMENT,
+    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
     nombre_cliente VARCHAR(100),
     ciudad_cliente VARCHAR(100)
 );
 
 CREATE TABLE ordenes (
-    id_orden INT PRIMARY KEY AUTOINCREMENT,
+    id_orden INT PRIMARY KEY AUTO_INCREMENT,
     id_cliente INT,
     fecha_orden DATE,
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
 );
 
 CREATE TABLE productos (
-    id_producto INT PRIMARY KEY AUTOINCREMENT,
+    id_producto INT PRIMARY KEY AUTO_INCREMENT,
     nombre_producto VARCHAR(100),
     precio_producto DECIMAL(10, 2)
 );
 
 CREATE TABLE detalles_ordenes (
-    id_detalle INT PRIMARY KEY AUTOINCREMENT,
+    id_detalle INT PRIMARY KEY AUTO_INCREMENT,
     id_orden INT,
     id_producto INT,
     cantidad INT,
