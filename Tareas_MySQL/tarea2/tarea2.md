@@ -1,10 +1,10 @@
 ## Realiza la migración a MySql y realiza las siguientes consultas:
 
-### Consultas simples.
+### Consultas simples
 
 - Mostrar todos los clientes.
 
-```
+```sql
 SELECT * FROM clientes
 
 +------------+------------+---------------+
@@ -32,8 +32,10 @@ SELECT * FROM clientes
 |         20 | Cliente 20 | Dirección 20  |
 +------------+------------+---------------+
 ```
+
 - Mostrar todos los productos.
-```
+
+```sql
 select * from productos;
 
 +-------------+-------------+--------+
@@ -63,7 +65,8 @@ select * from productos;
 ```
 
 - Mostrar todas las órdenes.
-```
+
+```sql
 select * from ordenes;
 
 +----------+------------+-------------+----------+
@@ -93,7 +96,8 @@ select * from ordenes;
 ```
 
 - Mostrar los primeros 5 clientes ordenados por nombre.
-```
+
+```sql
 select * from clientes order by nombre limit 5;
 +------------+------------+---------------+
 | id_cliente | nombre     | direccion     |
@@ -107,7 +111,8 @@ select * from clientes order by nombre limit 5;
 ```
 
 - Mostrar los productos con un precio mayor a 50.
-```
+
+```sql
 select * from productos where precio > 50;
 
 +-------------+-------------+--------+
@@ -133,7 +138,8 @@ select * from productos where precio > 50;
 ```
 
 - Mostrar todas las órdenes realizadas por el cliente con ID 1.
-```
+
+```sql
  select * from ordenes where id_cliente='1';
 
 +----------+------------+-------------+----------+
@@ -144,14 +150,16 @@ select * from productos where precio > 50;
 ```
 
 - Mostrar los clientes cuyos nombres comienzan con la letra "M".
-```
+
+```sql
 select nombre from clientes where nombre REGEXP '^M';
 
 Empty set (0,01 sec)
 ```
 
 - Mostrar las órdenes que contienen más de 2 productos.
-```
+
+```sql
 select * from ordenes where cantidad > 2;
 
 +----------+------------+-------------+----------+
@@ -166,7 +174,8 @@ select * from ordenes where cantidad > 2;
 ```
 
 - Mostrar los productos ordenados por precio de forma descendente.
-```
+
+```sql
 select * from productos order by precio DESC;
 
 +-------------+-------------+--------+
@@ -200,7 +209,8 @@ select * from productos order by precio DESC;
 
 - Seleccionar todos los clientes y sus órdenes, incluso si no tienen órdenes
 
-```
+```sql
+
 select * from clientes as c LEFT JOIN ordenes as o on o.id_cliente=c.id_cliente;
 
 +------------+------------+---------------+----------+------------+-------------+----------+
@@ -230,8 +240,10 @@ select * from clientes as c LEFT JOIN ordenes as o on o.id_cliente=c.id_cliente;
 
 
 ```
+
 - Seleccionar todas las órdenes junto con los productos correspondientes
-```
+
+```sql
 select * from ordenes as o JOIN productos as p on p.id_producto=o.id_producto;
 
 +----------+------------+-------------+----------+-------------+-------------+--------+
@@ -261,8 +273,10 @@ select * from ordenes as o JOIN productos as p on p.id_producto=o.id_producto;
 
 
 ```
+
 - Mostrar el nombre de los clientes que han realizado órdenes de productos que cuestan más de 50
-```
+
+```sql
 SELECT c.nombre from clientes as c JOIN ordenes as o on o.id_cliente=c.id_cliente JOIN productos as p on p.id_producto=o.id_producto WHERE p.precio > 50;
 
 +------------+
@@ -287,14 +301,19 @@ SELECT c.nombre from clientes as c JOIN ordenes as o on o.id_cliente=c.id_client
 +------------+
 
 ```
+
 - Obtener el nombre de los productos que no se han ordenado aún
-```
+
+```sql
 select p.nombre FROM ordenes as o join productos as p on o.id_producto=p.id_producto WHERE o.id_producto not in (SELECT id_producto from ordenes);
 
 Empty set (0,00 sec)
 ```
+
 - Mostrar el nombre del cliente, el producto y la cantidad para todas las órdenes
-```
+
+```sql
+
 SELECT c.nombre, p.nombre, o.cantidad from ordenes as o JOIN productos as p on p.id_producto=o.id_producto JOIN clientes as c on c.id_cliente=o.id_cliente;
 
 +------------+-------------+----------+
@@ -324,9 +343,11 @@ SELECT c.nombre, p.nombre, o.cantidad from ordenes as o JOIN productos as p on p
 
 
 ```
+
 - Obtener el nombre de los productos junto con los nombres de los clientes que han realizado órdenes de esos productos
-```
-select p.nombre, c.nombre FROM ordenes as o JOIN clientes as c on o.id_cliente=c.id_cliente JOIN productos as p on p.id_producto=o.id_producto;
+
+```sql
+select p.nombre, c.nombre from ordenes as o JOIN clientes as c on o.id_cliente=c.id_cliente JOIN productos as p on p.id_producto=o.id_producto;
 
 +-------------+------------+
 | nombre      | nombre     |
@@ -353,8 +374,10 @@ select p.nombre, c.nombre FROM ordenes as o JOIN clientes as c on o.id_cliente=c
 | Producto 20 | Cliente 20 |
 +-------------+------------+
 ```
+
 - Mostrar todas las órdenes con sus clientes y productos, incluso si no hay órdenes
-```
+
+```sql
 
 SELECT p.nombre, c.nombre FROM ordenes as o LEFT JOIN clientes as c on o.id_cliente=c.id_cliente JOIN productos as p on p.id_producto=o.id_producto;
 
@@ -383,9 +406,11 @@ SELECT p.nombre, c.nombre FROM ordenes as o LEFT JOIN clientes as c on o.id_clie
 | Producto 20 | Cliente 20 |
 +-------------+------------+
 ```
+
 - Obtener el nombre de los clientes junto con el número total de órdenes que han realizado
-```
-select p.nombre, c.nombre from ordenes as o join clientes as c on o.id_cliente=c.id_cliente join productos as p on p.id_producto=o.id_producto;
+
+```sql
+
 
 +-------------+------------+
 | nombre      | nombre     |
@@ -413,8 +438,10 @@ select p.nombre, c.nombre from ordenes as o join clientes as c on o.id_cliente=c
 +-------------+------------+
 
 ```
+
 - Mostrar todas las órdenes junto con el nombre del cliente y el nombre del producto
-```
+
+```sql
 select p.nombre, c.nombre from ordenes as o join clientes as c on o.id_cliente=c.id_cliente join productos as p on p.id_producto=o.id_producto;
 
 +-------------+------------+
@@ -443,15 +470,19 @@ select p.nombre, c.nombre from ordenes as o join clientes as c on o.id_cliente=c
 +-------------+------------+
 
 ```
-- Mostrar todas las órdenes con sus productos y clientes, incluso si no hay información de cliente.
-```
 
+- Mostrar todas las órdenes con sus productos y clientes, incluso si no hay información de cliente.
+
+```sql
+
+select c.nombre,p.nombre from clientes as c right join ordenes as o on c.id_cliente=o
 
 ```
 
 - Obtener el nombre de los productos junto con el nombre de los clientes que han realizado órdenes de esos productos, incluyendo los productos que no han sido ordenados
 
-```
+```sql
+
 select * from ordenes as o LEFT JOIN clientes as c on c.id_cliente=o.id_cliente join productos as p on p.id_producto=o.id_producto;
 
 +----------+------------+-------------+----------+------------+------------+---------------+-------------+-------------+--------+
@@ -483,7 +514,9 @@ select * from ordenes as o LEFT JOIN clientes as c on c.id_cliente=o.id_cliente 
 ```
 
 - Mostrar todas las órdenes junto con el nombre del cliente y el nombre del producto, incluyendo las órdenes sin productos
-```
+
+```sql
+
 select p.nombre, c.nombre, o.* from ordenes as o LEFT JOIN productos as p on p.id_producto=o.id_producto JOIN clientes as c on c.id_cliente=o.id_cliente;
 
 +-------------+------------+----------+------------+-------------+----------+
@@ -512,8 +545,10 @@ select p.nombre, c.nombre, o.* from ordenes as o LEFT JOIN productos as p on p.i
 +-------------+------------+----------+------------+-------------+----------+
 
 ```
+
 - Obtener el nombre de los clientes junto con el número total de órdenes que han realizado, incluyendo los clientes que no han realizado órdenes.
-```
+
+```sql
 SELECT c.nombre, COUNT(o.id_orden) as total_ordenes FROM ordenes as o LEFT JOIN clientes as c on o.id_cliente=c.id_cliente GROUP BY c.nombre;
 
 +------------+---------------+
@@ -542,4 +577,10 @@ SELECT c.nombre, COUNT(o.id_orden) as total_ordenes FROM ordenes as o LEFT JOIN 
 +------------+---------------+
 
 ```
+
 - Mostrar todas las órdenes con sus clientes y productos, incluyendo las órdenes y productos que no tienen información.
+
+```sql
+select * from ordenes as o left join clientes as c on o.id_cliente=c.id_cliente left join productos as p on o.id_producto as p ON o.id_producto=p.id_producto;
+
+```
