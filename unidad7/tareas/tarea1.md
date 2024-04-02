@@ -4,6 +4,7 @@
 ### Cree la tabla definiendo una clave primaria compuesta (año de inscripción y número de inscripción).
 
 ### Define los siguientes indices:
+
 - Un índice único por el campo "documento" y un índice común por ciudad y provincia.
 
 - Vea los índices de la tabla.
@@ -25,4 +26,3 @@
 - Elimina los indices creados, y muestra que ya no se encuentran.
 
         Nota:Muestra el comando y la salida.
-
