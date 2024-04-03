@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS alumno;
 - Crear database
 
 ```sql
-CREATE DATABASE IF NOT EXIST alumnodb;
+CREATE DATABASE alumnodb;
 
 USE DATABASE alumnodb;
 ```
