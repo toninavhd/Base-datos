@@ -153,6 +153,7 @@ select * from clientes as c LEFT JOIN ordenes as o on o.id_cliente=c.id_cliente;
 
 ```sql
 
+select * from ordenes as o join detalles_ordenes as do on c.id_cliente=o.id_orden join productos as p on p.id;
 ```
 
 - Mostrar el nombre de los clientes que han realizado órdenes de productos que cuestan más de 50.

@@ -1,9 +1,21 @@
 
 ### Elimine la tabla "alumno" si existe.
+
 ```sql
 DROP TABLE IF EXISTS alumno;
 ```
+
 ### Cree la tabla definiendo una clave primaria compuesta (año de inscripción y número de inscripción).
+
+- Crear database
+
+```sql
+CREATE DATABASE IF NOT EXIST alumnodb;
+
+USE DATABASE alumnodb;
+```
+
+- Crear tabla
 
 ```sql
 CREATE TABLE alumno (
@@ -14,9 +26,10 @@ CREATE TABLE alumno (
     domicilio VARCHAR(100),
     ciudad VARCHAR(50),
     provincia VARCHAR(50),
-    PRIMARY KEY (anio, numero)
+    PRIMARY KEY (inscripcion, numero)
 );
 ```
+
 ### Define los siguientes indices:
 
 ```sql
