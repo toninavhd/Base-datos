@@ -1,11 +1,14 @@
-- Elimine la tabla "cliente" si existe.
+# TAREA 2
 
-    ```sql
-    DROP TABLE IF EXISTS cliente;
-    ```
+##### Elimine la tabla "cliente" si existe.
 
-- Cree la tabla sin clave primaria e incluye a posteriori esta.
+```sql
+DROP TABLE IF EXISTS cliente;
+```
 
+##### Cree la tabla sin clave primaria e incluye a posteriori esta.
+
+- Creación de la tabla sin clave primaria.
 ```sql
     CREATE TABLE clientes (
     documento CHAR(8) NOT NULL,
@@ -21,17 +24,16 @@ Define los siguientes indices:
 
 - Un índice único por el campo "documento" y un índice común por ciudad y provincia.
 
-            Nota:Muestra el comando y la salida. Justifica el tipo de indice en un comentario.
+ Nota:Muestra el comando y la salida. Justifica el tipo de indice en un comentario.
 
 - Vea los índices de la tabla.
 
-            Nota:Muestra el comando y la salida "show index".
+Nota:Muestra el comando y la salida "show index".
 
 - Agregue un índice único por el campo "telefono".
 
-        Nota:Muestra el comando y la salida.
+Nota:Muestra el comando y la salida.
 
 - Elimina los índices.
 
-        Nota:Muestra el comando y la salida.
-
+Nota:Muestra el comando y la salida.

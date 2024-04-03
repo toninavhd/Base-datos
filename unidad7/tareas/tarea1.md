@@ -84,7 +84,8 @@ ERROR 1062 (23000): Duplicate entry '12345678' for key 'alumno.idx_documento'
 
 ```sql
 INSERT INTO alumno (inscripcion, numero, nombre, documento, domicilio, ciudad, provincia)
-VALUES (2022, 3, 'Carlos Rodríguez', '87654321', 'Calle Principal 789', 'Ciudad A', 'Provincia X'),(2022, 4, 'Ana García', '23456789', 'Av. Secundaria 567', 'Ciudad A', 'Provincia X');
+VALUES (2022, 3, 'Carlos Rodríguez', '87654321', 'Calle Principal 789', 'Ciudad A', 'Provincia X'),
+(2022, 4, 'Ana García', '23456789', 'Av. Secundaria 567', 'Ciudad A', 'Provincia X');
 
 /*salida*/
 Query OK, 2 rows affected (0,01 sec)
@@ -93,4 +94,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 - Elimina los indices creados.
-
+```sql
+DROP INDEX idx_documento on alumno;
+DROP INDEX idx_provincia on alumno;
+```
