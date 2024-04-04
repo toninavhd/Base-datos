@@ -87,7 +87,8 @@ EXPLAIN select * from MOVIMIENTO_BIS where IDENTIFICADOR = '3';
 ### Supongamos que las consultas de rango que se van a hacer en nuestra tabla son frecuentes y además no por el identificador, sino por la fecha. Este es motivo suficiente para que sea la fecha un índice de tabla y así mejorar el tiempo de respuesta de nuestras consultas. En la tabla MOVIMIENTO_BIS creamos un índice para la fecha (IX_FECHA_BIS) y otro índice para el identificador (IX_IDENTIFICADOR).
 
 ```sql
-
+CREATE INDEX IX_FECHA_BIS on MOVIMIENTO_BIS (fecha);
+CREATE INDEX IX_IDENTIFICADOR on MOVIMIENTO_BIS (identificador);
 
 ```
 
