@@ -68,7 +68,20 @@ describe MOVIMIENTO_BIS;
 ### Utilizando EXPLAIN observa el plan de ejecución de la consulta que devuelve toda la información de los movimientos con identificador=3. Tanto en la tabla MOVIMIENTOS como en la tabla MOVIMIENTOS_bis. Escribe tus conclusiones al respecto.
 
 ```sql
+EXPLAIN select * from MOVIMIENTO where IDENTIFICADOR = '3';
 
++----+-------------+------------+------------+-------+---------------+---------+---------+-------+------+----------+-------+
+| id | select_type | table      | partitions | type  | possible_keys | key     | key_len | ref   | rows | filtered | Extra |
++----+-------------+------------+------------+-------+---------------+---------+---------+-------+------+----------+-------+
+|  1 | SIMPLE      | MOVIMIENTO | NULL       | const | PRIMARY       | PRIMARY | 4       | const |    1 |   100.00 | NULL  |
++----+-------------+------------+------------+-------+---------------+---------+---------+-------+------+----------+-------+
+
+EXPLAIN select * from MOVIMIENTO_BIS where IDENTIFICADOR = '3';
++----+-------------+----------------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table          | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+----------------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | MOVIMIENTO_BIS | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 3589 |    10.00 | Using where |
++----+-------------+----------------+------------+------+---------------+------+---------+------+------+----------+-------------+
 
 ```
 ### Supongamos que las consultas de rango que se van a hacer en nuestra tabla son frecuentes y además no por el identificador, sino por la fecha. Este es motivo suficiente para que sea la fecha un índice de tabla y así mejorar el tiempo de respuesta de nuestras consultas. En la tabla MOVIMIENTO_BIS creamos un índice para la fecha (IX_FECHA_BIS) y otro índice para el identificador (IX_IDENTIFICADOR).
