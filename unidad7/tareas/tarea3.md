@@ -36,8 +36,9 @@ select count(identificador) as total from MOVIMIENTO;
 +-------+
 | total |
 +-------+
-|  3589 |
+|  3549 |
 +-------+
+
 
 ```
 ### Crea con la sentencia CREATE TABLE…SELECT… un duplicado de la tabla MOVIMIENTO a la que llamaremos MOVIMIENTO_BIS.
@@ -68,20 +69,22 @@ describe MOVIMIENTO_BIS;
 ### Utilizando EXPLAIN observa el plan de ejecución de la consulta que devuelve toda la información de los movimientos con identificador=3. Tanto en la tabla MOVIMIENTOS como en la tabla MOVIMIENTOS_bis. Escribe tus conclusiones al respecto.
 
 ```sql
-EXPLAIN select * from MOVIMIENTO where IDENTIFICADOR = '3';
 
+EXPLAIN select * from MOVIMIENTO where IDENTIFICADOR = '3';
 +----+-------------+------------+------------+-------+---------------+---------+---------+-------+------+----------+-------+
 | id | select_type | table      | partitions | type  | possible_keys | key     | key_len | ref   | rows | filtered | Extra |
 +----+-------------+------------+------------+-------+---------------+---------+---------+-------+------+----------+-------+
 |  1 | SIMPLE      | MOVIMIENTO | NULL       | const | PRIMARY       | PRIMARY | 4       | const |    1 |   100.00 | NULL  |
 +----+-------------+------------+------------+-------+---------------+---------+---------+-------+------+----------+-------+
+1 row in set, 1 warning (0,01 sec)
 
 EXPLAIN select * from MOVIMIENTO_BIS where IDENTIFICADOR = '3';
 +----+-------------+----------------+------------+------+---------------+------+---------+------+------+----------+-------------+
 | id | select_type | table          | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
 +----+-------------+----------------+------------+------+---------------+------+---------+------+------+----------+-------------+
-|  1 | SIMPLE      | MOVIMIENTO_BIS | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 3589 |    10.00 | Using where |
+|  1 | SIMPLE      | MOVIMIENTO_BIS | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    1 |   100.00 | Using where |
 +----+-------------+----------------+------------+------+---------------+------+---------+------+------+----------+-------------+
+1 row in set, 1 warning (0,00 sec)
 
 ```
 ### Supongamos que las consultas de rango que se van a hacer en nuestra tabla son frecuentes y además no por el identificador, sino por la fecha. Este es motivo suficiente para que sea la fecha un índice de tabla y así mejorar el tiempo de respuesta de nuestras consultas. En la tabla MOVIMIENTO_BIS creamos un índice para la fecha (IX_FECHA_BIS) y otro índice para el identificador (IX_IDENTIFICADOR).
@@ -95,7 +98,17 @@ CREATE INDEX IX_IDENTIFICADOR on MOVIMIENTO_BIS (identificador);
 ### Analiza el plan de ejecución de las siguientes consultas y observa la diferencia: Consulta1
 
 ```sql
+ select * from MOVIMIENTO where identificador=3;
++---------------+-----------+------------+----------+
+| Identificador | Articulo  | Fecha      | Cantidad |
++---------------+-----------+------------+----------+
+|             3 | Producto3 | 2012-01-03 |    51484 |
++---------------+-----------+------------+----------+
+1 row in set (0,00 sec)
 
+
+select identificador from MOVIMIENTO_BIS where identificador=3;
+Empty set (0,00 sec)
 
 ```
 
@@ -103,6 +116,13 @@ CREATE INDEX IX_IDENTIFICADOR on MOVIMIENTO_BIS (identificador);
 - Consulta1
 
 ```sql
+EXPLAIN SELECT fecha FROM MOVIMIENTO WHERE fecha BETWEEN '01/01/2012' and '01/03/2012';
++----+-------------+------------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table      | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+------------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | MOVIMIENTO | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 3549 |    11.11 | Using where |
++----+-------------+------------+------------+------+---------------+------+---------+------+------+----------+-------------+
+1 row in set, 1 warning (0,00 sec)
 
 
 ```
@@ -111,19 +131,44 @@ CREATE INDEX IX_IDENTIFICADOR on MOVIMIENTO_BIS (identificador);
 
 ```sql
 
+EXPLAIN SELECT * FROM MOVIMIENTO_BIS WHERE fecha BETWEEN '01/01/2012' and '01/03/2012';
++----+-------------+----------------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table          | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+----------------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | MOVIMIENTO_BIS | NULL       | ALL  | IX_FECHA_BIS  | NULL | NULL    | NULL |    1 |   100.00 | Using where |
++----+-------------+----------------+------------+------+---------------+------+---------+------+------+----------+-------------+
+1 row in set, 2 warnings (0,00 sec)
 
 ```
 
 #### Fijate que en la consulta 2 pedimos todos los campos. ¿A través de que índice busca? ¿Por qué crees que lo hace así? En la consulta 1 solo pedimos la fecha. ¿A través de que índice busca? ¿Por qué crees que lo hace así? Analiza la ejecución.
 
-- Vamos a crear un índice por fecha (IX_FECHA) en la tabla MOVIMIENTO, puesto que no lo tenía, en este caso la tabla ya tenía un indice, la clave primaria.
+- Vamos a crear un índice por fecha (iFECHA) en la tabla MOVIMIENTO, puesto que no lo tenía, en este caso la tabla ya tenía un indice, la clave primaria.
 
 ```sql
-
+CREATE INDEX ifecha on MOVIMIENTO(Fecha);
 ```
 - Visualiza los indices de las tablas MOVIMIENTO y MOVIMIENTO_BIS.
 
 ```sql
+ SHOW INDEX FROM MOVIMIENTO;
++------------+------------+----------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table      | Non_unique | Key_name | Seq_in_index | Column_name   | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++------------+------------+----------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| MOVIMIENTO |          0 | PRIMARY  |            1 | Identificador | A         |           0 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| MOVIMIENTO |          1 | ifecha   |            1 | Fecha         | A         |         120 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++------------+------------+----------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0,02 sec)
+
+SHOW INDEX FROM MOVIMIENTO_BIS;
++----------------+------------+------------------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table          | Non_unique | Key_name         | Seq_in_index | Column_name   | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++----------------+------------+------------------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| MOVIMIENTO_BIS |          1 | IX_FECHA_BIS     |            1 | Fecha         | A         |           0 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| MOVIMIENTO_BIS |          1 | IX_IDENTIFICADOR |            1 | Identificador | A         |           0 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++----------------+------------+------------------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0,01 sec)
+
 
 ```
 
@@ -132,10 +177,26 @@ CREATE INDEX IX_IDENTIFICADOR on MOVIMIENTO_BIS (identificador);
 
 ```sql
 
+EXPLAIN SELECT * FROM MOVIMIENTO WHERE fecha BETWEEN '01/01/2012' AND '01/03/2012';
++----+-------------+------------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table      | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+------------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | MOVIMIENTO | NULL       | ALL  | ifecha        | NULL | NULL    | NULL | 3549 |    11.11 | Using where |
++----+-------------+------------+------------+------+---------------+------+---------+------+------+----------+-------------+
+1 row in set, 2 warnings (0,00 sec)
+
 ```
 - Consulta 2
 
 ```sql
+
+EXPLAIN SELECT * FROM MOVIMIENTO WHERE fecha BETWEEN 01/01/2012 AND 01/03/2012;
++----+-------------+------------+------------+------+---------------+--------+---------+-------+------+----------+-------+
+| id | select_type | table      | partitions | type | possible_keys | key    | key_len | ref   | rows | filtered | Extra |
++----+-------------+------------+------------+------+---------------+--------+---------+-------+------+----------+-------+
+|  1 | SIMPLE      | MOVIMIENTO | NULL       | ref  | ifecha        | ifecha | 3       | const |    1 |   100.00 | NULL  |
++----+-------------+------------+------------+------+---------------+--------+---------+-------+------+----------+-------+
+1 row in set, 1 warning (0,00 sec)
 
 ```
 
@@ -143,10 +204,26 @@ CREATE INDEX IX_IDENTIFICADOR on MOVIMIENTO_BIS (identificador);
 
 ```sql
 
+EXPLAIN SELECT fecha FROM MOVIMIENTO_BIS WHERE fecha BETWEEN 01/01/2012 A
+ND 01/03/2012;
++----+-------------+----------------+------------+------+---------------+--------------+---------+-------+------+----------+-------------+
+| id | select_type | table          | partitions | type | possible_keys | key          | key_len | ref   | rows | filtered | Extra       |
++----+-------------+----------------+------------+------+---------------+--------------+---------+-------+------+----------+-------------+
+|  1 | SIMPLE      | MOVIMIENTO_BIS | NULL       | ref  | IX_FECHA_BIS  | IX_FECHA_BIS | 3       | const |    1 |   100.00 | Using index |
++----+-------------+----------------+------------+------+---------------+--------------+---------+-------+------+----------+-------------+
+1 row in set, 1 warning (0,00 sec)
+
 ```
 
 - Consulta 4
 
 ```sql
+EXPLAIN SELECT * FROM MOVIMIENTO_BIS WHERE fecha BETWEEN 01/01/2012 AND 01/03/2012;
++----+-------------+----------------+------------+------+---------------+--------------+---------+-------+------+----------+-------+
+| id | select_type | table          | partitions | type | possible_keys | key          | key_len | ref   | rows | filtered | Extra |
++----+-------------+----------------+------------+------+---------------+--------------+---------+-------+------+----------+-------+
+|  1 | SIMPLE      | MOVIMIENTO_BIS | NULL       | ref  | IX_FECHA_BIS  | IX_FECHA_BIS | 3       | const |    1 |   100.00 | NULL  |
++----+-------------+----------------+------------+------+---------------+--------------+---------+-------+------+----------+-------+
+1 row in set, 1 warning (0,00 sec)
 
 ```
