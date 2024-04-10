@@ -2128,6 +2128,16 @@ select * from film where length =(select min(length) from film);
 - Numero de películas de cada rating
 
 ```sql
+select rating, count(film_id)as num_peliculas from film group by rating;
++--------+---------------+
+| rating | num_peliculas |
++--------+---------------+
+| PG     |           194 |
+| G      |           178 |
+| NC-17  |           210 |
+| PG-13  |           223 |
+| R      |           195 |
++--------+---------------+
 
 ```
 - Cuantas películas ha realizado el actor ED CHASE.
@@ -2135,9 +2145,20 @@ select * from film where length =(select min(length) from film);
 ```sql
 
 ```
+
 - Media de duración de las películas cada categoría.
 
 ```sql
-
+select rating, avg(length)as num_peliculas from film group by rating;
++--------+---------------+
+| rating | num_peliculas |
++--------+---------------+
+| PG     |      112.0052 |
+| G      |      111.0506 |
+| NC-17  |      113.2286 |
+| PG-13  |      120.4439 |
+| R      |      118.6615 |
++--------+---------------+
+5 rows in set (0,01 sec)
 ```
 
