@@ -3,7 +3,7 @@
 ### Realiza la carga de la BBDD de Sakila, tal y como se muestra en los enlaces proporcionados.
 
 ```sql
-
+USE sakila;
 ```
 
 ### Realiza cada una de las siguientes consultas:
