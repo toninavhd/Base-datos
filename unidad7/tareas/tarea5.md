@@ -44,8 +44,6 @@ EXPLAIN SELECT * FROM producto WHERE nombre = 'Evonimus Pulchellus';
 |  1 | SIMPLE      | producto | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  276 |    10.00 | Using where |
 +----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
 1 row in set, 1 warning (0,00 sec)
-
-
 ```
 
 - Razona la respuesta, y analiza las diferencias.
