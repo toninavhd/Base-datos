@@ -85,6 +85,18 @@ SELECT *
 FROM cliente INNER JOIN pedido
 ON cliente.codigo_cliente = pedido.codigo_cliente
 WHERE cliente.nombre_cliente LIKE 'A%';
+
+optimizada:
+
+EXPLAIN   SELECT * FROM cliente INNER JOIN pedido ON cliente.codigo_cliente = pedido.codigo_cliente WHERE cliente.nombre_cliente REGEXP "^A";
+
+ +----+-------------+---------+------------+------+----------------+----------------+---------+-----------------------------------+------+----------+-------------+
+  | id | select_type | table   | partitions | type | possible_keys  | key            | key_len | ref                               | rows | filtered | Extra       |
+  +----+-------------+---------+------------+------+----------------+----------------+---------+-----------------------------------+------+----------+-------------+
+  |  1 | SIMPLE      | cliente | NULL       | ALL  | PRIMARY        | NULL           | NULL    | NULL                              |   36 |   100.00 | Using where |
+  |  1 | SIMPLE      | pedido  | NULL       | ref  | codigo_cliente | codigo_cliente | 4       | jardineria.cliente.codigo_cliente |    1 |   100.00 | NULL        |
+  +----+-------------+---------+------------+------+----------------+----------------+---------+-----------------------------------+------+----------+-------------+
+
 ```
 
 - ¿Por qué no es posible optimizar el tiempo de ejecución de las siguientes consultas, incluso haciendo uso de índices?
@@ -100,17 +112,18 @@ FROM cliente INNER JOIN pedido
 ON cliente.codigo_cliente = pedido.codigo_cliente
 WHERE cliente.nombre_cliente LIKE '%A';
 ```
+Por usar LIKE ya que con esta consulta debemos recorrer todos los datos
 
 - Crea un índice de tipo FULLTEXT sobre las columnas nombre y descripcion de la tabla producto.
   
 ```sql
-
+CREATE FULLTEXT INDEX indx_nombre_desc ON producto(nombre,descripcion);
 ```
 
 -  Una vez creado el índice del ejercicio anterior realiza las siguientes consultas haciendo uso de la función MATCH, para buscar todos los productos que:
 
 ```sql
-
+SELECT * FROM producto WHERE MATCH(nombre, descripcion) AGAINST('planta');
 ```
        
 - Contienen la palabra planta en el nombre o en la descripción.
@@ -122,18 +135,32 @@ WHERE cliente.nombre_cliente LIKE '%A';
 - Realice una consulta para cada uno de los modos de búsqueda full-text que existen en MySQL (IN NATURAL LANGUAGE MODE, IN BOOLEAN MODE y WITH QUERY EXPANSION) y compare los resultados que ha obtenido en cada caso.
 
 ```sql
+- IN NATURAL LANGUAGE MODE
+
+SELECT * FROM producto WHERE MATCH(nombre,descripcion) AGAINST('planta' IN NATURAL LANGUAGE MODE);
+
+- IN BOOLEAN MODE
+
+ SELECT * FROM producto  WHERE MATCH(nombre,descripcion) AGAINST('planta' IN BOOLEAN MODE);
+
+- WITH QUERY EXPANSION
+
+ SELECT * FROM producto  WHERE MATCH(nombre,descripcion) AGAINST('planta' WITH QUERY EXPANSION);
 
 ```
 
 - Contienen la palabra planta seguida de cualquier carácter o conjunto de caracteres, en el nombre o en la descripción.
 
 ```sql
+SELECT * FROM producto WHERE MATCH(nombre, descripcion) AGAINST('+"planta*"' IN BOOLEAN MODE);
+
 
 ```
 
 -  Empiezan con la palabra planta en el nombre o en la descripción.
 
 ```sql
+SELECT * FROM producto WHERE MATCH(nombre, descripcion) AGAINST ('planta*' IN BOOLEAN MODE);
 
 ```
 
@@ -141,25 +168,27 @@ WHERE cliente.nombre_cliente LIKE '%A';
 - Contienen la palabra tronco o la palabra árbol en el nombre o en la descripción.
 
 ```sql
+SELECT * FROM producto WHERE MATCH(nombre, descripcion) AGAINST ('tronco árbol' IN BOOLEAN MODE);
 
 ```
 
 - Contienen la palabra tronco y la palabra árbol en el nombre o en la descripción.
 
 ```sql
-
+SELECT * FROM producto WHERE MATCH(nombre, descripcion) AGAINST ('+tronco +árbol' IN BOOLEAN MODE);
 ```     
 
 
 - Contienen la palabra tronco pero no contienen la palabra árbol en el nombre o en la descripción.
 
 ```sql
-
+SELECT * FROM producto WHERE MATCH(nombre, descripcion) AGAINST ('+tronco -árbol' IN BOOLEAN MODE);
 ```     
 
 - Contiene la frase proviene de las costas en el nombre o en la descripción.
 
 ```sql
+SELECT * FROM producto WHERE MATCH(nombre, descripcion) AGAINST ('proviene de las costas' IN BOOLEAN MODE);
 
 ```     
 
@@ -167,30 +196,30 @@ WHERE cliente.nombre_cliente LIKE '%A';
 - Crea un índice de tipo INDEX compuesto por las columnas apellido_contacto y nombre_contacto de la tabla cliente.
 
 ```sql
-
+CREATE INDEX idx_apellido_nombre_contacto ON cliente (apellido_contacto, nombre_contacto);
 ```     
-
-- Una vez creado el índice del ejercicio anterior realice las siguientes consultas haciendo uso de EXPLAIN:
-            
-```sql
-
-```
 
 - Busca el cliente Javier Villar. ¿Cuántas filas se han examinado hasta encontrar el resultado?
 
 ```sql
-
+EXPLAIN SELECT * FROM cliente WHERE apellido_contacto = 'Villar' AND nombre_contacto = 'Javier';
 ```           
 
 - Busca el cliente anterior utilizando solamente el apellido Villar.¿Cuántas filas se han examinado hasta encontrar el resultado?
             
 ```sql
-
+EXPLAIN SELECT * FROM cliente WHERE apellido_contacto = 'Villar';
 ```
 - Busca el cliente anterior utilizando solamente el nombre Javier. ¿Cuántas filas se han examinado hasta encontrar el resultado? ¿Qué ha ocurrido en este caso?
 
 ```sql
+EXPLAIN SELECT * FROM cliente WHERE nombre_contacto = 'Javier';
 
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | cliente | NULL       | ALL  | NULL          | NULL | NULL    | NULL |   36 |    10.00 | Using where |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-------------+
 ```
 
 - Calcula cuál podría ser un buen valor para crear un índice sobre un prefijo de la columna nombre_cliente de la tabla cliente. Tenga en cuenta que un buen valor será aquel que nos permita utilizar el menor número de caracteres para diferenciar todos los valores que existen en la columna sobre la que estamos creando el índice.
