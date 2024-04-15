@@ -839,20 +839,47 @@ EXPLAIN SELECT * FROM cliente WHERE nombre_contacto = 'Javier';
 
 - Calcula cuál podría ser un buen valor para crear un índice sobre un prefijo de la columna nombre_cliente de la tabla cliente. Tenga en cuenta que un buen valor será aquel que nos permita utilizar el menor número de caracteres para diferenciar todos los valores que existen en la columna sobre la que estamos creando el índice.
 
-```sql
-
-```
 
 - En primer lugar calculamos cuántos valores distintos existen en la columna nombre_cliente. Necesitarás utilizar la función COUNT y DISTINCT.
            
 ```sql
+SELECT COUNT(DISTINCT(nombre_cliente)) as total FROM cliente;
++-------+
+| total |
++-------+
+|    35 |
++-------+
+1 row in set (0.01 sec)
 
 ```
 
 - Haciendo uso de la función LEFT ve calculando el número de caracteres que necesitas utilizar como prefijo para diferenciar todos los valores de la columna. Necesitarás la función COUNT, DISTINCT y LEFT.
 
 ```sql
-
+SELECT LENGTH(nombre_cliente) AS longitud_prefijo, COUNT(DISTINCT LEFT(nombre_cliente, LENGTH(nombre_cliente))) AS num_valores_unicos FROM cliente GROUP BY longitud_prefijo order by longitud_prefijo;
++------------------+--------------------+
+| longitud_prefijo | num_valores_unicos |
++------------------+--------------------+
+|                5 |                  1 |
+|                7 |                  2 |
+|                9 |                  3 |
+|               10 |                  3 |
+|               11 |                  2 |
+|               12 |                  5 |
+|               13 |                  3 |
+|               14 |                  2 |
+|               15 |                  2 |
+|               16 |                  3 |
+|               18 |                  1 |
+|               20 |                  2 |
+|               21 |                  1 |
+|               22 |                  1 |
+|               23 |                  1 |
+|               26 |                  1 |
+|               27 |                  1 |
+|               30 |                  1 |
++------------------+--------------------+
+18 rows in set (0.01 sec)
 ```
 
 - Una vez que hayas encontrado el valor adecuado para el prefijo, crea el índice sobre la columna nombre_cliente de la tabla cliente.
@@ -870,43 +897,159 @@ Ejecuta algunas consultas de prueba sobre el índice que acabas de crear.
 - Escriba una vista que se llame listado_pagos_clientes que muestre un listado donde aparezcan todos los clientes y los pagos que ha realizado cada uno de ellos. La vista deberá tener las siguientes columnas: nombre y apellidos del cliente concatenados, teléfono, ciudad, pais, fecha_pago, total del pago, id de la transacción
 
 ```sql
+CREATE VIEW listado_pedidos_clientes as SELECT c.codigo_cliente, CONCAT(c.nombre_cliente, ' ', c.apellido_contacto) as nombre, c.telefono, c.ciudad, c.pais, p.codigo_pedido, p.fecha_pedido, p.fecha_entrega,   SUM(d.cantidad * d.precio_unidad) AS cantidad_total_pedido 
+FROM cliente c JOIN pedido p ON c.codigo_cliente = p.codigo_cliente JOIN detalle_pedido d ON p.codigo_pedido = d.codigo_pedido GROUP BY c.codigo_cliente, nombre,  c.telefono, c.ciudad, c.pais, p.codigo_pedido, p.fecha_pedido, p.fecha_entrega;
 
 ```
 
 - Escriba una vista que se llame listado_pedidos_clientes que muestre un listado donde aparezcan todos los clientes y los pedidos que ha realizado cada uno de ellos. La vista deberá tener las siguientes columnas: código del cliente, nombre y apellidos del cliente concatendados, teléfono, ciudad, pais, código del pedido, fecha del pedido, fecha esperada, fecha de entrega y la cantidad total del pedido, que será la suma del producto de todas las cantidades por el precio de cada unidad, que aparecen en cada línea de pedido.
 
 ```sql
+CREATE VIEW listado_pedidos_clientes as SELECT c.codigo_cliente, CONCAT(c.nombre_cliente, ' ', c.apellido_contacto) as nombre, c.telefono, c.ciudad, c.pais, p.codigo_pedido, p.fecha_pedido, p.fecha_entrega,   SUM(d.cantidad * d.precio_unidad) AS cantidad_total_pedido 
+FROM cliente c JOIN pedido p ON c.codigo_cliente = p.codigo_cliente JOIN detalle_pedido d ON p.codigo_pedido = d.codigo_pedido GROUP BY c.codigo_cliente, nombre,  c.telefono, c.ciudad, c.pais, p.codigo_pedido, p.fecha_pedido, p.fecha_entrega;
 
 ```
 
 - Utilice las vistas que ha creado en los pasos anteriores para devolver un listado de los clientes de la ciudad de Madrid que han realizado pagos.
 
 ```sql
+SELECT * FROM listado_pagos_clientes WHERE ciudad = 'Madrid';
+
++-----------------------------------------------------+-------------+--------+-------+------------+----------+----------------+
+| CONCAT(c.nombre_contacto, ' ', c.apellido_contacto) | telefono    | ciudad | pais  | fecha_pago | total    | id_transaccion |
++-----------------------------------------------------+-------------+--------+-------+------------+----------+----------------+
+| Jose Bermejo                                        | 654987321   | Madrid | Spain | 2009-01-13 |  2390.00 | ak-std-000012  |
+| Guillermo Rengifo                                   | 689234750   | Madrid | Spain | 2009-01-06 |   929.00 | ak-std-000013  |
+| Juan Rodriguez                                      | 34912453217 | Madrid | Spain | 2008-07-15 |  4160.00 | ak-std-000015  |
+| Javier Villar                                       | 654865643   | Madrid | Spain | 2009-01-15 |  2081.00 | ak-std-000016  |
+| Javier Villar                                       | 654865643   | Madrid | Spain | 2009-02-15 | 10000.00 | ak-std-000035  |
+| Eva María Sánchez                                   | 916877445   | Madrid | Spain | 2008-03-18 | 18846.00 | ak-std-000020  |
+| Matías San Martín                                   | 916544147   | Madrid | Spain | 2009-02-08 | 10972.00 | ak-std-000021  |
++-----------------------------------------------------+-------------+--------+-------+------------+----------+----------------+
 
 ```
 
 -Utilice las vistas que ha creado en los pasos anteriores para devolver un listado de los clientes que todavía no han recibido su pedido.
 
 ```sql
+SELECT * FROM listado_pedidos_clientes WHERE fecha_entrega IS NULL;
 
++----------------+-----------------------------------------+-------------+--------------------------+-----------+---------------+--------------+---------------+-----------------------+
+| codigo_cliente | nombre                                  | telefono    | ciudad                   | pais      | codigo_pedido | fecha_pedido | fecha_entrega | cantidad_total_pedido |
++----------------+-----------------------------------------+-------------+--------------------------+-----------+---------------+--------------+---------------+-----------------------+
+|              5 | Tendo Garden Tendo                      | 55591233210 | Miami                    | USA       |             3 | 2008-06-20   | NULL          |              10850.00 |
+|              5 | Tendo Garden Tendo                      | 55591233210 | Miami                    | USA       |             4 | 2009-01-20   | NULL          |               2624.00 |
+|              3 | Gardening Associates Wright             | 5557410345  | Miami                    | USA       |            10 | 2009-01-15   | NULL          |               2920.00 |
+|              1 | GoldFish Garden GoldFish                | 5556901745  | San Francisco            | USA       |            11 | 2009-01-20   | NULL          |                820.00 |
+|              1 | GoldFish Garden GoldFish                | 5556901745  | San Francisco            | USA       |            12 | 2009-01-22   | NULL          |                290.00 |
+|              7 | Beragua Bermejo                         | 654987321   | Madrid                   | Spain     |            14 | 2009-01-02   | NULL          |                829.00 |
+|              9 | Naturagua Rengifo                       | 689234750   | Madrid                   | Spain     |            19 | 2009-01-18   | NULL          |                333.00 |
+|              9 | Naturagua Rengifo                       | 689234750   | Madrid                   | Spain     |            20 | 2009-01-20   | NULL          |                292.00 |
+|              5 | Tendo Garden Tendo                      | 55591233210 | Miami                    | USA       |            23 | 2008-12-30   | NULL          |               1640.00 |
+|              1 | GoldFish Garden GoldFish                | 5556901745  | San Francisco            | USA       |            25 | 2009-02-02   | NULL          |               1455.00 |
+|              3 | Gardening Associates Wright             | 5557410345  | Miami                    | USA       |            26 | 2009-02-06   | NULL          |                675.00 |
+|              3 | Gardening Associates Wright             | 5557410345  | Miami                    | USA       |            27 | 2009-02-07   | NULL          |                504.00 |
+|              4 | Gerudo Valley Flaute                    | 5552323129  | New York                 | USA       |            33 | 2007-05-20   | NULL          |              73226.00 |
+|              4 | Gerudo Valley Flaute                    | 5552323129  | New York                 | USA       |            35 | 2008-03-10   | NULL          |               1718.00 |
+|              4 | Gerudo Valley Flaute                    | 5552323129  | New York                 | USA       |            37 | 2008-11-03   | NULL          |               2284.00 |
+|             26 | Jardines y Mansiones Cactus SL Sánchez  | 916877445   | Madrid                   | Spain     |            50 | 2008-03-17   | NULL          |               3506.00 |
+|             26 | Jardines y Mansiones Cactus SL Sánchez  | 916877445   | Madrid                   | Spain     |            52 | 2008-12-07   | NULL          |                700.00 |
+|             14 | Dardena S.A. Rodriguez                  | 34912453217 | Madrid                   | Spain     |            54 | 2009-01-11   | NULL          |                669.00 |
+|             13 | Camunas Jardines S.L. Camunas           | 34914873241 | San Lorenzo del Escorial | Spain     |            56 | 2008-12-19   | NULL          |                377.00 |
+|             13 | Camunas Jardines S.L. Camunas           | 34914873241 | San Lorenzo del Escorial | Spain     |            57 | 2009-01-05   | NULL          |                773.00 |
+|              3 | Gardening Associates Wright             | 5557410345  | Miami                    | USA       |            61 | 2009-01-15   | NULL          |                700.00 |
+|              1 | GoldFish Garden GoldFish                | 5556901745  | San Francisco            | USA       |            62 | 2009-01-20   | NULL          |                700.00 |
+|              1 | GoldFish Garden GoldFish                | 5556901745  | San Francisco            | USA       |            63 | 2009-01-22   | NULL          |                700.00 |
+|              1 | GoldFish Garden GoldFish                | 5556901745  | San Francisco            | USA       |            65 | 2009-02-02   | NULL          |                700.00 |
+|              3 | Gardening Associates Wright             | 5557410345  | Miami                    | USA       |            66 | 2009-02-06   | NULL          |                700.00 |
+|              3 | Gardening Associates Wright             | 5557410345  | Miami                    | USA       |            67 | 2009-02-07   | NULL          |                700.00 |
+|             15 | Jardin de Flores Villar                 | 654865643   | Madrid                   | Spain     |            74 | 2009-01-14   | NULL          |               3562.00 |
+|             15 | Jardin de Flores Villar                 | 654865643   | Madrid                   | Spain     |            77 | 2009-01-03   | NULL          |                588.00 |
+|             28 | Agrojardin Lopez                        | 675432926   | Getafe                   | Spain     |            80 | 2009-01-25   | NULL          |               5773.00 |
+|             28 | Agrojardin Lopez                        | 675432926   | Getafe                   | Spain     |            81 | 2009-01-18   | NULL          |                120.00 |
+|             28 | Agrojardin Lopez                        | 675432926   | Getafe                   | Spain     |            83 | 2009-01-24   | NULL          |                120.00 |
+|             27 | Jardinerías Matías SL San Martín        | 916544147   | Madrid                   | Spain     |            90 | 2009-02-07   | NULL          |                 41.00 |
+|             27 | Jardinerías Matías SL San Martín        | 916544147   | Madrid                   | Spain     |            94 | 2009-10-18   | NULL          |               5759.00 |
+|             35 | Tutifruti S.A Jones                     | 2 9261-2433 | Sydney                   | Australia |            98 | 2009-01-08   | NULL          |               1024.00 |
+|             16 | Flores Marivi Rodriguez                 | 666555444   | Fuenlabrada              | Spain     |            99 | 2009-02-15   | NULL          |               2070.00 |
+|             16 | Flores Marivi Rodriguez                 | 666555444   | Fuenlabrada              | Spain     |           101 | 2009-03-07   | NULL          |                209.00 |
+|             30 | Jardineria Sara Marquez                 | 675124537   | Fuenlabrada              | Spain     |           105 | 2009-02-14   | NULL          |               1506.00 |
+|             38 | El Jardin Viviente S.L Smith            | 2 8005-7161 | Sydney                   | Australia |           117 | 2008-08-25   | NULL          |                154.00 |
+|             16 | Flores Marivi Rodriguez                 | 666555444   | Fuenlabrada              | Spain     |           118 | 2009-02-15   | NULL          |                700.00 |
+|             16 | Flores Marivi Rodriguez                 | 666555444   | Fuenlabrada              | Spain     |           120 | 2009-03-07   | NULL          |                700.00 |
+|             30 | Jardineria Sara Marquez                 | 675124537   | Fuenlabrada              | Spain     |           125 | 2009-02-14   | NULL          |                700.00 |
++----------------+-----------------------------------------+-------------+--------------------------+-----------+---------------+--------------+---------------+-----------------------+
+41 rows in set (0.01 sec)
 ```
 
 - Utilice las vistas que ha creado en los pasos anteriores para calcular el número de pedidos que se ha realizado cada uno de los clientes.
 
 ```sql
+SELECT codigo_cliente, COUNT(codigo_cliente) as total_pedidos FROM listado_pedidos_clientes GROUP BY
+codigo_cliente;
 
+--Resultado:
++----------------+---------------+
+| codigo_cliente | total_pedidos |
++----------------+---------------+
+|              5 |             5 |
+|              1 |            11 |
+|              3 |             9 |
+|              7 |             5 |
+|              9 |             5 |
+|             14 |             5 |
+|             13 |             5 |
+|              4 |             5 |
+|             19 |             5 |
+|             23 |             5 |
+|             26 |             5 |
+|             15 |             5 |
+|             28 |             5 |
+|             35 |             5 |
+|             27 |             5 |
+|             16 |            10 |
+|             30 |            10 |
+|             38 |             5 |
+|             36 |             5 |
++----------------+---------------+
+19 rows in set (0.00 sec)
 ```
 
 - Utilice las vistas que ha creado en los pasos anteriores para calcular el valor del pedido máximo y mínimo que ha realizado cada cliente.
 
 ```sql
+SELECT MIN(cantidad_total_pedido) FROM listado_pedidos_clientes;
 
+--Resultado:
++----------------------------+
+| MIN(cantidad_total_pedido) |
++----------------------------+
+|                       4.00 |
++----------------------------+
+1 row in set (0.00 sec)
 ```
 
 - Modifique el nombre de las vista listado_pagos_clientes y asígnele el nombre listado_de_pagos. Una vez que haya modificado el nombre de la vista ejecute una consulta utilizando el nuevo nombre de la vista para comprobar que sigue funcionando correctamente.
 
 ```sql
+DROP VIEW IF EXISTS listado_pagos_clientes;
+DROP VIEW IF EXISTS listado_de_pagos;
 
+CREATE VIEW listado_de_pagos AS
+SELECT CONCAT(c.nombre_contacto, ' ', c.apellido_contacto) AS nombre_completo,
+       c.telefono,
+       c.ciudad,
+       c.pais,
+       p.fecha_pago,
+       p.total,
+       p.id_transaccion
+FROM cliente c
+JOIN pago p ON c.codigo_cliente = p.codigo_cliente;
 ```
 
 - Elimine las vistas que ha creado en los pasos anteriores.
+  ```sql
+  DROP VIEW IF EXISTS listado_pagos_clientes;
+  DROP VIEW IF EXISTS listado_de_pagos;
+  DROP VIEW IF EXISTS listado_pedidos_clientes;
+```
