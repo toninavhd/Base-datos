@@ -1,4 +1,4 @@
-### Crea la bbdd. 
+### Crea la BBDD. 
 
 - Utilizaremos comandos SQL para crear una base de datos llamada "SimpleDB" que contendrá dos tablas: "Users" para almacenar información de usuarios y "Products" para almacenar información de productos.
 
@@ -63,6 +63,50 @@ DELIMITER ;
 |      3 | Pedro    | pedro@example.com  |
 |      4 | Agustin  | sabrosin@gmail.com |
 +--------+----------+--------------------+
+
+```
+
+### Implementa funciones para realizar cálculos o consultas:
+
+- Función para calcular el precio total de un conjunto de productos.
+```sql
+DELIMITER //
+Create function price_counter() returns real deterministic
+BEGIN
+declare result real;
+Select sum(Price) from Products into result;
+return result;
+END //
+DELIMITER ;
+
+select price_counter();
++-----------------+
+| price_counter() |
++-----------------+
+|          218.99 |
++-----------------+
+1 row in set (0,00 sec)
+
+```
+
+-Función para contar el número de usuarios.
+
+```sql
+DELIMITER //
+Create function user_counter() returns integer deterministic
+BEGIN
+declare result integer;
+Select COUNT(UserID) from Users into result;
+return result;
+END //
+DELIMITER ;
+
+select user_counter();
++----------------+
+| user_counter() |
++----------------+
+|              4 |
++----------------+
 
 
 ```
