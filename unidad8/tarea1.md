@@ -89,7 +89,7 @@ select price_counter();
 
 ```
 
--Función para contar el número de usuarios.
+- Función para contar el número de usuarios.
 
 ```sql
 DELIMITER //
