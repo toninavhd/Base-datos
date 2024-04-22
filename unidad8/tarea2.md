@@ -16,6 +16,14 @@
 
     ```sql
 
+    DELIMITER //
+    Create function calcular_suma_pedidos_cliente() returns real deterministic
+    BEGIN
+    declare result real;
+    Select sum(Price) from Products into result;
+    return result;
+    END //
+    DELIMITER ;
 
     ```
 
