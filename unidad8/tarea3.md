@@ -44,3 +44,29 @@ INSERT INTO empleados (nombre, salario) VALUES
   END //
   DELIMITER ;
 ```
+
+-- Calcular el salario anual de cada empleado (asumiendo que trabajan todo el año) y lo imprima:
+
+```sql
+CREATE PROCEDURE salarioAnual
+AS
+BEGIN
+    SELECT id_empleado, nombre, salario*12 AS 'salario anual'
+    FROM Empleados;
+END;
+```
+
+-- Contar y mostrar el número de empleados en cada rango de salario (por ejemplo, menos de 3000, entre 3000 y 5000, más de 5000):
+
+```sql
+CREATE PROCEDURE ContarEmpleadosPorRangoSalario
+AS
+BEGIN
+    SELECT 
+        SUM(CASE WHEN salario < 3000 THEN 1 ELSE 0 END) AS 'Menos de 3000',
+        SUM(CASE WHEN salario BETWEEN 3000 AND 5000 THEN 1 ELSE 0 END) AS 'Entre 3000 y 5000',
+        SUM(CASE WHEN salario > 5000 THEN 1 ELSE 0 END) AS 'Más de 5000'
+    FROM Empleados;
+END;
+
+```
