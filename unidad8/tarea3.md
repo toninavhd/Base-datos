@@ -74,7 +74,6 @@ DROP PROCEDURE IF EXISTS salario_anual;
 
 call salario_anual(2);
 
-
 +----+--------+---------------+
 | id | nombre | salario_anual |
 +----+--------+---------------+
@@ -87,14 +86,41 @@ call salario_anual(2);
 - Contar y mostrar el número de empleados en cada rango de salario (por ejemplo, menos de 3000, entre 3000 y 5000, más de 5000):
 
 ```sql
-CREATE PROCEDURE ContarEmpleadosPorRangoSalario
-AS
-BEGIN
-    SELECT 
-        SUM(CASE WHEN salario < 3000 THEN 1 ELSE 0 END) AS 'Menos de 3000',
-        SUM(CASE WHEN salario BETWEEN 3000 AND 5000 THEN 1 ELSE 0 END) AS 'Entre 3000 y 5000',
-        SUM(CASE WHEN salario > 5000 THEN 1 ELSE 0 END) AS 'Más de 5000'
-    FROM Empleados;
-END;
+DROP PROCEDURE IF EXISTS rango_salario;
+
+  DELIMITER //
+  CREATE PROCEDURE rango_salario(IN min_limit INT, max_limit INT)
+  BEGIN
+      DECLARE done INT DEFAULT FALSE;
+      DECLARE emp_id INT;
+      DECLARE emp_nombre VARCHAR(100);
+      DECLARE emp_salario DECIMAL(10, 2);
+      DECLARE cur CURSOR FOR SELECT id, nombre, salario FROM empleados;
+      DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+      OPEN cur;
+      read_loop: LOOP
+          FETCH cur INTO emp_id, emp_nombre, emp_salario;
+          IF done THEN
+              LEAVE read_loop;
+          END IF;
+          SELECT id, nombre, salario from empleados WHERE salario BETWEEN min_limit AND max_limit;
+      END LOOP;
+      CLOSE cur;
+  END //
+  DELIMITER ;
+
+call rango_salario(3200, 3600);
+
+--Resultado:
++----+--------+---------+
+| id | nombre | salario |
++----+--------+---------+
+|  2 | María  | 3505.25 |
+|  3 | Pedro  | 3365.04 |
++----+--------+---------+
+2 rows in set (0,00 sec)
+
+
 
 ```
