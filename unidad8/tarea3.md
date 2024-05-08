@@ -51,7 +51,7 @@ INSERT INTO empleados (nombre, salario) VALUES
 CREATE PROCEDURE salarioAnual
 AS
 BEGIN
-    SELECT id_empleado, nombre, salario*12 AS 'salario anual'
+    SELECT id_empleado, nombre, salario * 12 AS 'salario anual'
     FROM Empleados;
 END;
 ```
