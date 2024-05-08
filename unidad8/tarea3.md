@@ -48,12 +48,40 @@ INSERT INTO empleados (nombre, salario) VALUES
 - Calcular el salario anual de cada empleado (asumiendo que trabajan todo el año) y lo imprima:
 
 ```sql
-CREATE PROCEDURE salarioAnual
-AS
-BEGIN
-    SELECT id_empleado, nombre, salario * 12 AS 'salario anual'
-    FROM Empleados;
-END;
+DROP PROCEDURE IF EXISTS salario_anual;
+
+  DELIMITER //
+  CREATE PROCEDURE salario_anual(IN id_empleado INT)
+  BEGIN
+      DECLARE done INT DEFAULT FALSE;
+      DECLARE emp_id INT;
+      DECLARE emp_nombre VARCHAR(100);
+      DECLARE emp_salario DECIMAL(10, 2);
+      DECLARE cur CURSOR FOR SELECT id, nombre, salario FROM empleados;
+      DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+      OPEN cur;
+      read_loop: LOOP
+          FETCH cur INTO emp_id, emp_nombre, emp_salario;
+          IF done THEN
+              LEAVE read_loop;
+          END IF;
+          SELECT id, nombre, salario * 12 as salario_anual from empleados WHERE id = id_empleado;
+      END LOOP;
+      CLOSE cur;
+  END //
+  DELIMITER ;
+
+call salario_anual(2);
+
+
++----+--------+---------------+
+| id | nombre | salario_anual |
++----+--------+---------------+
+|  2 | María  |      42063.00 |
++----+--------+---------------+
+1 row in set (0,00 sec)
+
 ```
 
 - Contar y mostrar el número de empleados en cada rango de salario (por ejemplo, menos de 3000, entre 3000 y 5000, más de 5000):
