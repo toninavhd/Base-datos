@@ -112,7 +112,6 @@ DROP PROCEDURE IF EXISTS rango_salario;
 
 call rango_salario(3200, 3600);
 
---Resultado:
 +----+--------+---------+
 | id | nombre | salario |
 +----+--------+---------+
