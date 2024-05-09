@@ -3,6 +3,18 @@
 - Escribe un procedimiento almacenado que copie los nombres de todos los empleados cuyo salario sea superior a 3000 en una nueva tabla llamada 'empleados_destino'. Es necesario crear la tabla empleados_destiono.
 
 ```sql
+CREATE PROCEDURE empleado_3000(IN valor DECIMAL(5,2))
+BEGIN
+    DECLARE donde INT DEFAULT FALSE;
+    DECLARE emp_id INT;
+    DECLARE emp_nombre VARCHAR(100);
+    DECLARE cur CURSOR FOR SELECT id, nombre, salario FROM empleados;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    OPEN cur;
+    read_loop: LOOP
+        FETCH cur INTO emp_id, emp_nombre, emp_salario;
+        IF done THEN
+            LEAVE read
 
 ```
 - Escribe un procedimiento almacenado que seleccione los empleados cuyos nombres contienen la letra 'a' y aumente sus salarios en un 10%.
@@ -80,6 +92,26 @@ call id_finder(1,2);
 
 ```sql
 
+DELIMITER //
+CREATE PROCEDURE deletear_salario(IN salario_min DECIMAL(5,2), IN salario_maximo DECIMAL(5,2))
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE emp_salario INT;
+    DECLARE cur CURSOR FOR SELECT id FROM empleados;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cur;
+    read_loop: LOOP
+        FETCH cur INTO emp_id;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;        
+        DELETE from empleados where salario between salario_min and salario_maximo;
+    END LOOP;
+    CLOSE cur;
+
+END //
+DELIMITER ;
 
 ```
 
