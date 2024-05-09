@@ -65,6 +65,14 @@ BEGIN
 END //
 DELIMITER ;
 
+call id_finder(1,2);
++----+--------+---------+
+| id | nombre | salario |
++----+--------+---------+
+|  1 | Juan   | 3300.00 |
+|  2 | María  | 3850.00 |
++----+--------+---------+
+2 rows in set (0,00 sec)
 
 ```
 
