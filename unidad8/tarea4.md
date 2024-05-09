@@ -44,6 +44,27 @@ select * from empleados;
 - Escribe un procedimiento almacenado que seleccione empleados cuyos IDs estén en un rango específico, por ejemplo, entre 2 y 3.
 
 ```sql
+DELIMITER //
+CREATE PROCEDURE id_finder(IN id_min INT, IN id_maximo INT)
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE emp_id INT;
+    DECLARE cur CURSOR FOR SELECT id FROM empleados;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cur;
+    read_loop: LOOP
+        FETCH cur INTO emp_id;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;        
+        select * from empleados where id between id_min and id_maximo;
+    END LOOP;
+    CLOSE cur;
+
+END //
+DELIMITER ;
+
 
 ```
 
