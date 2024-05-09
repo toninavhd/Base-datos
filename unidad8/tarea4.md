@@ -57,7 +57,7 @@ select * from empleados;
 
 ```sql
 DELIMITER //
-CREATE PROCEDURE id_finder(IN id_min INT, IN id_maximo INT)
+CREATE PROCEDURE id_finder(IN id_min DECIMAL(5,2), IN id_maximo DECIMAL(5,2))
 BEGIN
     DECLARE done INT DEFAULT FALSE;
     DECLARE emp_id INT;
