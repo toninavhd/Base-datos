@@ -108,7 +108,7 @@ Inserta dos filas en la tabla empleados con nombres aleatorios generados usando 
 ```sql
 DELIMITER //
 
-CREATE PROCEDURE my_loop(IN iterations INT)
+CREATE PROCEDURE random_order(IN iterations INT)
 BEGIN
     DECLARE counter INT DEFAULT 0;
 
@@ -153,7 +153,7 @@ Inserta cuatro filas en la tabla empleados con nombres aleatorios generados usan
 
 DELIMITER //
 
-CREATE PROCEDURE my_loop(IN iterations INT)
+CREATE PROCEDURE random_substring(IN iterations INT)
 BEGIN
     DECLARE counter INT DEFAULT 0;
 
@@ -199,7 +199,7 @@ Inserta seis filas en la tabla empleados con nombres aleatorios generados usando
 ```sql
 DELIMITER //
 
-CREATE PROCEDURE my_loop(IN iterations INT)
+CREATE PROCEDURE random_seed(IN iterations INT)
 BEGIN
     DECLARE counter INT DEFAULT 0;
 
