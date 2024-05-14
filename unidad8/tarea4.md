@@ -14,7 +14,7 @@ BEGIN
     read_loop: LOOP
         FETCH cur INTO emp_id, emp_nombre, emp_salario;
         IF done THEN
-            LEAVE read
+            LEAVE read LOOP
 
 ```
 - Escribe un procedimiento almacenado que seleccione los empleados cuyos nombres contienen la letra 'a' y aumente sus salarios en un 10%.
