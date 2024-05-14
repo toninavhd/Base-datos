@@ -2,7 +2,6 @@ Trabajo con procedimientos de generación de información
 
 Dado el procedimiento base:
 ```sql
-
 DELIMITER //
 
 CREATE PROCEDURE my_loop(IN iterations INT)
@@ -49,7 +48,6 @@ Y las funciones descritas en aleatoriedad, realiza los siguientes procedimientos
 |  7 | Empleado0.5866406267384445  | 6375.00 |
 |  8 | Empleado0.974695259681619   | 3861.00 |
 +----+-----------------------------+---------+
-
 ```
 Inserta tres filas en la tabla empleados con nombres aleatorios generados usando la función UUID().
 ```sql
@@ -75,7 +73,6 @@ VALUES (UUID(), FLOOR(RAND() * (10000 - 2000 + 1)) + 2000),
 | 10 | 9aa0d5fe-1200-11ef-8d0a-080027bd7b7f | 5993.00 |
 | 11 | 9aa0d7c4-1200-11ef-8d0a-080027bd7b7f | 8218.00 |
 +----+--------------------------------------+---------+
-
 ```
 Inserta dos filas en la tabla empleados con nombres aleatorios generados usando la función RAND() junto con ORDER BY RAND().
 ```sql
@@ -134,8 +131,8 @@ VALUES (SUBSTRING_INDEX(UUID(), '-', -1), FLOOR(RAND() * (10000 - 2000 + 1)) + 2
 | 17 | 080027bd7b7f                         | 7972.00 |
 | 18 | 080027bd7b7f                         | 7277.00 |
 +----+--------------------------------------+---------+
-
 ```
+
 Inserta seis filas en la tabla empleados con nombres aleatorios generados usando la función RAND() y una semilla diferente.
 ```sql
 INSERT INTO empleados (nombre, salario)
@@ -176,7 +173,6 @@ VALUES (CONCAT('Empleado', RAND(1)), FLOOR(RAND(1) * (10000 - 2000 + 1)) + 2000)
 | 23 | Empleado0.40613597483014313          | 5249.00 |
 | 24 | Empleado0.6563190842571847           | 7251.00 |
 +----+--------------------------------------+---------+
-
 ```
 Crea cada uno de los procedimientos, maximixando el número de parámetros de entrada necesarios, por ejemplo: _nombre, salario, e id.
 
