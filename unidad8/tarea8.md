@@ -38,7 +38,7 @@ CREATE TRIGGER trigger_crear_email_before_insert BEFORE INSERT ON alumnos
 FOR EACH ROW
 BEGIN
     IF NEW.email IS NULL THEN
-        SET NEW.email = crear_email(NEW.nombre, NEW.apellido1, NEW.apellido2, 'dominio.com');
+        SET NEW.email = crear_email(NEW.nombre, NEW.apellido1, NEW.apellido2, '');
     END IF;
 END //
 DELIMITER ;
