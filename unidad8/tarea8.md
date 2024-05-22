@@ -34,7 +34,8 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE TRIGGER trigger_crear_email_before_insert BEFORE INSERT ON alumnos
+CREATE TRIGGER trigger_crear_email_before_insert 
+BEFORE INSERT ON alumnos
 FOR EACH ROW
 BEGIN
     IF NEW.email IS NULL THEN
