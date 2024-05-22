@@ -40,7 +40,7 @@ CREATE TRIGGER trigger_guardar_alumnos_eliminados
 AFTER UPDATE ON alumnos
 FOR EACH ROW
 BEGIN
-
+INSERT INTO log_cambios_email (id_alumno, old_email, new_email) values()
 ```
   - La tabla log_alumnos_eliminados contiene los siguientes campos:
     - id: clave primaria (entero autonumérico)
