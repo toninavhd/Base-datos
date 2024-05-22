@@ -1,6 +1,5 @@
 
-```
-sql
+```sql
 
 CREATE DATABASE test;
 USE test;
