@@ -1,8 +1,8 @@
 # Apuntes examen
 
-## Aspectos básicos:
+## Aspectos básicos.
 
-### Creación de base de datos:
+### Creación de base de datos.
 
 ```sql
 DROP DATABASE IF EXISTS database_nombre;
@@ -11,7 +11,7 @@ CREATE DATABASE database_nombre;
 USE database_nombre;
 ```
 
-### Creación de tablas:
+### Creación de tablas.
 
 ```sql
 DROP TABLE IF EXISTS table_name;
@@ -69,9 +69,7 @@ Puedes tambien declarar valores por defecto de la siguiente manera:
 DECLARE nombre_variable tipo_variable [DEFAULT valor];
 ```
 
-
-
-## Procedimientos:
+## Procedimientos.
 
 La estructura para crear un procedimiento serìa la siguiente:
 
@@ -107,3 +105,63 @@ CALL actualizar_fecha('82dc7194', '2024-02-04');
 SELECT * FROM persona WHERE identificador = '82dc7194';
 
 ```
+
+## Cursores.
+
+Creación de un cursor:
+
+```sql
+DECLARE done INT DEFAULT FALSE; -- Variable necesaria para indicarle al cursor que ya se terminó.
+... -- En los ... se supone que van el resto de declaraciones de variables usadas en la 
+... -- función/procedimiento.
+...
+DECLARE cursor_name CURSOR FOR SELECT "select"; -- El cursor mismo
+
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+ 
+```
+
+Esta seria la llamada al cursor:
+
+```sql
+OPEN nombre_cursor;
+```
+
+Lectura del cursor:
+
+```sql
+FETCH nombre_cursor INTO variable1[,variable2,...];
+```
+
+Cierre del cursor:
+
+```sql
+CLOSE nombre_cursor;
+```
+
+## Aleatoriedad.
+
+```sql
+SELECT RAND(); -- Genera un número aleatorio entre 0 y 1
+-- Ejemplo de salida: 0.712345
+```
+
+```sql
+SELECT RAND(1); -- Genera un número aleatorio basado en la semilla 1
+-- Ejemplo de salida: 0.659217
+```
+
+#### UUID
+
+```sql
+SELECT UUID(); -- Genera un UUID único
+-- Ejemplo de salida: 123e4567-e89b-12d3-a456-426614174000
+```
+
+#### Concat
+
+```sql
+SELECT CONCAT('Usuario', RAND()); -- Genera un nombre de usuario aleatorio
+-- Ejemplo de salida: Usuario0.123456
+```
+
